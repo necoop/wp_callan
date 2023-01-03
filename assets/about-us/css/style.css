@@ -1,0 +1,125 @@
+.about-us {
+  padding-top: 80px;
+}
+.about-us h2 {
+  margin-top: 35px;
+  margin-bottom: 25px;
+}
+.about-us .row {
+  margin: 0;
+}
+.about-us .row > * {
+  padding: 0 !important;
+}
+
+@media (max-with: 1131px) {
+  .about-us {
+    padding-top: 129px;
+  }
+}
+.about-us-container .about-us-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #7a7a7a;
+  text-align: justify;
+}
+
+.services h2 {
+  margin-top: 150px;
+}
+.services ol,
+.services ul {
+  padding-left: 0;
+}
+
+.service-list {
+  margin-top: 40px;
+}
+.service-list .service-item {
+  margin-top: 55px;
+}
+
+.servise-item-inner {
+  width: 100%;
+  min-height: 195px;
+  background: #ffffff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 12px;
+}
+.servise-item-inner .service-item-box {
+  background: #ffffff;
+  border: 1px dashed #ecf6fc;
+  border-radius: 20px;
+  width: 100%;
+  min-height: 171px;
+  padding: 0 36px 18px;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: center;
+  color: #7a7a7a;
+}
+.servise-item-inner .service-item-box h3 {
+  margin-top: 10px;
+}
+.servise-item-inner .service-item-box .service-img-item {
+  height: 110px;
+  margin-top: -55px;
+}
+
+.about-us-ibg {
+  height: 1097px;
+  margin-top: -298px;
+}
+
+@media (max-width: 767px) {
+  .servise-item-inner {
+    min-height: 122px;
+    padding: 9px;
+  }
+  .servise-item-inner .service-item-box {
+    min-height: 104px;
+    padding: 13px 18px 20px;
+  }
+  .servise-item-inner .service-item-box h3 {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .servise-item-inner .service-item-box .service-img-item {
+    height: 85px;
+  }
+  .service-list .service-item {
+    margin-top: 40px;
+  }
+  .about-us-ibg {
+    margin-top: 250px;
+  }
+}
+.services-ibg {
+  height: 125px;
+  background-color: #d8eaf6;
+}
+.services-ibg img {
+  position: absolute;
+}
+.services-ibg .ibg-bottom {
+  bottom: -226px;
+}
+.services-ibg .ibg-top {
+  top: -346px;
+  left: 0;
+}
+
+.services {
+  display: flex;
+  justify-content: center;
+}
+.services .container-ibg {
+  width: 1440px;
+  background-image: url(../img/services/white-cloud-2.jpg);
+  background-repeat: repeat-y;
+  position: relative;
+  background-position-y: -50px;
+}/*# sourceMappingURL=style.css.map */
