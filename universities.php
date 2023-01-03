@@ -17,7 +17,6 @@ get_header();
 <?php
 global $post;
 
-// $countriesList = [];
 $myposts = get_posts([
     'numberposts' => -1,
     'offset'      => 1,
