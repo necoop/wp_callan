@@ -10,7 +10,41 @@ add_action('wp_enqueue_scripts', function () {
 	wp_enqueue_script('students-foto', get_template_directory_uri() . '/assets/js/students-foto.js', array('swiper-bundle'), 'null', true);
 });
 
+// Предзагрузка иконок кнопок
+add_filter('wp_resource_hints', 'button_preload', 10, 2);
+function button_preload($urls, $relation_type)
+{
+	if('preload' === $relation_type){
+		$urls[] = [
+			'href'        => get_bloginfo('template_directory') . "/assets/img/ui/minus-ico.svg",
+			'as'          => 'image'
+		];
+		$urls[] = [
+			'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-left-hover.png",
+			'as'          => 'image'
+		];
+		$urls[] = [
+			'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-right-hover.png",
+			'as'          => 'image'
+		];
+		$urls[] = [
+			'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-left-active.png",
+			'as'          => 'image'
+		];
+		$urls[] = [
+			'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-right-active.png",
+			'as'          => 'image'
+		];
+	}
+	return $urls;
+}
+// Окончание предзагрузки иконок кнопок
+
 get_header();
+
+?>
+
+<?php
 
 get_template_part('main');
 

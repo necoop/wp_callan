@@ -7,11 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?php wp_title('', 'true', '' ); ?></title>
 
-  <link rel="preload" href="<?php bloginfo('template_directory'); ?>/assets/img/ui/minus-ico.svg" as="image">
-  <link rel="preload" href="<?php bloginfo('template_directory'); ?>/assets/img/ui/arr-left-hover.png" as="image">
-  <link rel="preload" href="<?php bloginfo('template_directory'); ?>/assets/img/ui/arr-right-hover.png" as="image">
-  <link rel="preload" href="<?php bloginfo('template_directory'); ?>/assets/img/ui/arr-left-active.png" as="image">
-  <link rel="preload" href="<?php bloginfo('template_directory'); ?>/assets/img/ui/arr-right-active.png" as="image">
+
 
   <?php wp_head(); ?>
 

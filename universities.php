@@ -29,12 +29,13 @@ if ($myposts) {
 ?>
 <?php
         // Формируем массив для фильтра
-        $countriesList[] = get_field('position_country');
-        $formList[] = get_field('study-form');
-        $speciality[] = get_field('speciality');
+        if (get_field('about_activity')) {
+            $countriesList[] = get_field('position_country');
+            $formList[] = get_field('study-form');
+            $speciality[] = get_field('speciality');
+        }
     }
 }
-
 wp_reset_postdata(); // Сбрасываем $post
 ?>
 
@@ -101,6 +102,7 @@ wp_reset_postdata(); // Сбрасываем $post
                     <div id="form-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
 
+                            <!-- Фильтр по формам обучения -->
                             <?php
                             joinInArray($formList);
                             deliteDuplicateAndSort($formList);
@@ -132,6 +134,7 @@ wp_reset_postdata(); // Сбрасываем $post
                     <div id="direction-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
 
+                            <!-- Фильтр по специальностям -->
                             <?php
                             joinInArray($speciality);
                             deliteDuplicateAndSort($speciality);
