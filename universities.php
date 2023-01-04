@@ -12,6 +12,9 @@ add_action('wp_enqueue_scripts', function () {
 
 get_header();
 
+// Подключение файла обработки массивов
+require(get_template_directory() . '/assets/unis/sort_arrays.php');
+
 ?>
 
 <?php
@@ -33,10 +36,28 @@ if ($myposts) {
             $countriesList[] = get_field('position_country');
             $formList[] = get_field('study-form');
             $speciality[] = get_field('speciality');
+
+            $uni[] = [
+                'id' => get_the_ID(),
+                'name' => get_the_title(),
+                'country' => get_field('position_country'),
+                'study_form' =>  get_field('study-form'),
+                'speciality' => get_field('speciality'),
+                'popularity' => get_field('about_popularity'),
+                'price' => get_field('about_price'),
+                'galerey' => get_post_gallery_images()
+            ];
         }
     }
 }
 wp_reset_postdata(); // Сбрасываем $post
+
+
+
+
+
+
+
 ?>
 
 <section class="unis container">
@@ -74,7 +95,7 @@ wp_reset_postdata(); // Сбрасываем $post
                             deliteDuplicateAndSort($countriesList);
                             foreach ($countriesList as $country) {
                                 echo '<div class="accordion__body__item">';
-                                echo "<input type='checkbox' class='checkbox__item country__item' name='$country' id='$country'";
+                                echo "<input type='checkbox' class='checkbox__item country__item' name='country_$country' id='$country'";
                                 if (!isset($_COOKIE['countries']) || str_contains($_COOKIE['countries'], $country)) {
                                     echo "checked='checked'";
                                 }
@@ -108,7 +129,7 @@ wp_reset_postdata(); // Сбрасываем $post
                             deliteDuplicateAndSort($formList);
                             foreach ($formList as $item) {
                                 echo '<div class="accordion__body__item">';
-                                echo "<input type='checkbox' class='checkbox__item study__form__item' name='$item' id='$item'";
+                                echo "<input type='checkbox' class='checkbox__item study__form__item' name='form_$item' id='$item'";
                                 if (!isset($_COOKIE['study_form']) || str_contains($_COOKIE['study_form'], $item)) {
                                     echo "checked='checked'";
                                 }
@@ -140,7 +161,7 @@ wp_reset_postdata(); // Сбрасываем $post
                             deliteDuplicateAndSort($speciality);
                             foreach ($speciality as $item) {
                                 echo '<div class="accordion__body__item">';
-                                echo "<input type='checkbox' class='checkbox__item speciality__item' name='$item' id='$item'";
+                                echo "<input type='checkbox' class='checkbox__item speciality__item' name='speciality_$item' id='$item'";
                                 if (!isset($_COOKIE['speciality']) || str_contains($_COOKIE['speciality'], $item)) {
                                     echo "checked='checked'";
                                 }
@@ -276,6 +297,57 @@ wp_reset_postdata(); // Сбрасываем $post
     </div>
 </section>
 
+<?php
+
+
+
+$uni_filtred = [];
+// Фильтрация по странам
+foreach ($uni as $item) {
+    if (isset($_POST['country_' . $item['country']])) {
+        $uni_filtred[] = $item;
+    }
+}
+
+for ($i = 0; $i < count($uni_filtred); $i++) {
+    $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
+    $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
+}
+
+// Фильтрация по формам обучения
+$tmp = [];
+for ($i = 0; $i < count($uni_filtred); $i++) {
+    foreach ($uni_filtred[$i]['study_form'] as $item) {
+        if (isset($_POST["form_" . str_replace(' ', '_', $item)])) {
+            $tmp[] = $uni_filtred[$i];
+            break;
+        }
+    }
+}
+$uni_filtred = $tmp;
+unset($tmp);
+
+
+// Фильтрация по специальностям
+$tmp = [];
+for ($i = 0; $i < count($uni_filtred); $i++) {
+    foreach ($uni_filtred[$i]['speciality'] as $item) {
+        if (isset($_POST["speciality_" . str_replace(' ', '_', $item)])) {
+            $tmp[] = $uni_filtred[$i];
+            break;
+        }
+    }
+}
+$uni_filtred = $tmp;
+unset($tmp);
+
+echo '<pre>';
+print_r($uni_filtred);
+echo '</pre>';
+
+
+?>
+
 <!-- Боковое меню фильтров -->
 <div class="offcanvas offcanvas-end" data-bs-scroll="false" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
@@ -385,66 +457,7 @@ wp_reset_postdata(); // Сбрасываем $post
     </div>
 </div>
 
-<?php
 
-// Функции
-// Удаляем дубликаты из массива и сортируем его
-function deliteDuplicateAndSort(array &$array)
-{
-    $arrayFiltred = [];
-    foreach ($array as $arrayItem) {
-        $equality = false;
-        foreach ($arrayFiltred as $arrayFiltredItem) {
-            if ($arrayItem == $arrayFiltredItem) {
-                $equality = true;
-                break;
-            }
-        }
-        if (!$equality) {
-            $arrayFiltred[] = $arrayItem;
-        }
-    }
-    $array = $arrayFiltred;
-    asort($array);
-}
-
-// Удаляем разделители в строках (запятые) и объединяем их в массив
-function joinInArray(&$array)
-{
-    do {
-        $count = 0;
-        $rize = 0;
-        foreach ($array as $words => $item) {
-            $tmp[] = str_replace(', ', ',', $item, $count);
-            if ($count) {
-                $rize++;
-            }
-        }
-        $array = $tmp;
-        unset($tmp);
-    } while ($rize);
-    do {
-        $count = 0;
-        $rize = 0;
-        foreach ($array as $words => $item) {
-            $tmp[] = str_replace(' ,', ',', $item, $count);
-            if ($count) {
-                $rize++;
-            }
-        }
-        $array = $tmp;
-        unset($tmp);
-    } while ($rize);
-
-    $tmp = [];
-    foreach ($array as $item) {
-        $tmp = array_merge($tmp, explode(',', $item));
-    }
-    $array = $tmp;
-    unset($tmp);
-}
-
-?>
 
 <?php
 

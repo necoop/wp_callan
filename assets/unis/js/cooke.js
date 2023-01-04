@@ -26,7 +26,7 @@ function wait(event) {
   let countries = [];
   for (let i = 0; i < choise.length; i++) {
     if (choise[i].checked) {
-      countries[countries.length] = choise[i].name;
+      countries[countries.length] = choise[i].id;
     }
   }
   document.cookie = "countries=" + countries + "; max-age=" + 60 * 60 * 24 * 30;
@@ -36,7 +36,7 @@ function wait(event) {
   let studyForm = [];
   for (let i = 0; i < choise.length; i++) {
     if (choise[i].checked) {
-      studyForm[studyForm.length] = choise[i].name;
+      studyForm[studyForm.length] = choise[i].id;
     }
   }
   document.cookie =
@@ -47,7 +47,7 @@ function wait(event) {
   let speciality = [];
   for (let i = 0; i < choise.length; i++) {
     if (choise[i].checked) {
-      speciality[speciality.length] = choise[i].name;
+      speciality[speciality.length] = choise[i].id;
     }
   }
   document.cookie =
