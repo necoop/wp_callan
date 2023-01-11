@@ -6,6 +6,13 @@ arr.forEach((element) => {
   element.addEventListener("click", wait);
 });
 
+
+// if(load == false){
+//   document.addEventListener("DOMContentLoaded", send);
+//   document.cookie = ('site_opened = true');
+// }
+
+
 // Время ожидания выбора пользователя
 let timeToWait = 5000;
 

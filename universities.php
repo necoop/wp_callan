@@ -301,50 +301,94 @@ wp_reset_postdata(); // Сбрасываем $post
 
 
 
-$uni_filtred = [];
-// Фильтрация по странам
-foreach ($uni as $item) {
-    if (isset($_POST['country_' . $item['country']])) {
-        $uni_filtred[] = $item;
-    }
-}
 
-for ($i = 0; $i < count($uni_filtred); $i++) {
-    $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
-    $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
-}
 
-// Фильтрация по формам обучения
-$tmp = [];
-for ($i = 0; $i < count($uni_filtred); $i++) {
-    foreach ($uni_filtred[$i]['study_form'] as $item) {
-        if (isset($_POST["form_" . str_replace(' ', '_', $item)])) {
-            $tmp[] = $uni_filtred[$i];
-            break;
+
+if (count($_POST)) {
+    $uni_filtred = [];
+    // Фильтрация по странам
+    foreach ($uni as $item) {
+        if (isset($_POST['country_' . $item['country']])) {
+            $uni_filtred[] = $item;
         }
     }
-}
-$uni_filtred = $tmp;
-unset($tmp);
 
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
+        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
+    }
 
-// Фильтрация по специальностям
-$tmp = [];
-for ($i = 0; $i < count($uni_filtred); $i++) {
-    foreach ($uni_filtred[$i]['speciality'] as $item) {
-        if (isset($_POST["speciality_" . str_replace(' ', '_', $item)])) {
-            $tmp[] = $uni_filtred[$i];
-            break;
+    // Фильтрация по формам обучения
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['study_form'] as $item) {
+            if (isset($_POST["form_" . str_replace(' ', '_', $item)])) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
         }
     }
+    $uni_filtred = $tmp;
+    unset($tmp);
+
+
+    // Фильтрация по специальностям
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['speciality'] as $item) {
+            if (isset($_POST["speciality_" . str_replace(' ', '_', $item)])) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+} elseif(!count($_POST) && isset($_COOKIE['countries'])) {
+    // Фильтрация по странам из куков
+    foreach ($uni as $item) {
+        if (str_contains($_COOKIE['countries'], $item['country'])) {
+            $uni_filtred[] = $item;
+        }
+    }
+
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
+        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
+    }
+
+    // Фильтрация по формам обучения из куков
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['study_form'] as $item) {
+            if (str_contains($_COOKIE['study_form'], $item)) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+
+    // Фильтрация по специальностям из куков
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['speciality'] as $item) {
+            if (str_contains($_COOKIE['speciality'], $item)) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+} else {
+    $uni_filtred = $uni;
 }
-$uni_filtred = $tmp;
-unset($tmp);
 
 echo '<pre>';
 print_r($uni_filtred);
 echo '</pre>';
-
 
 ?>
 
