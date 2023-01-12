@@ -537,6 +537,7 @@
 }
 .offcanvas {
   transition: 0.3s ease all;
+  overflow-y: scroll;
 }
 .offcanvas .offcanvas__box {
   margin: 3px;
@@ -551,4 +552,15 @@
 .offcanvas-body .universities__filtres {
   margin-top: 0;
   width: 100%;
+}
+
+#filtres__mobile__btn[disabled=true] {
+  background: #F8FCFF;
+  color: #D9D9D9;
+}
+#filtres__mobile__btn[disabled=true] .icon__circle {
+  background: #fff;
+}
+#filtres__mobile__btn[disabled=true]:hover {
+  box-shadow: none;
 }/*# sourceMappingURL=style.css.map */

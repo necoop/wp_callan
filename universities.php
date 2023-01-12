@@ -74,8 +74,8 @@ wp_reset_postdata(); // Сбрасываем $post
         Фильтры
     </button>
 
-    <div class="universities__container">
-        <form class="universities__filtres" method="post" id="universities__filtres" action="#myUniversitets">
+    <form class="universities__container" method="post" action="#myUniversitets" id="universities__filtres">
+        <div class="universities__filtres">
             <h3>Фильтры</h3>
             <div class="accordion" id="country__panel">
                 <div class="accordion-item">
@@ -154,7 +154,6 @@ wp_reset_postdata(); // Сбрасываем $post
                     </h2>
                     <div id="direction-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                         <div class="accordion-body">
-
                             <!-- Фильтр по специальностям -->
                             <?php
                             joinInArray($speciality);
@@ -174,13 +173,13 @@ wp_reset_postdata(); // Сбрасываем $post
                 </div>
             </div>
 
-        </form>
+        </div>
         <div class="universities__content">
             <div class="nav__box">
-                <form class="search__panel" action="#" method="get">
+                <div class="search__panel">
                     <button type="submit" class="start__search"></button>
                     <input type="text" name="search__university" id="search__university" class="search__university" placeholder="Поиск">
-                </form>
+                </div>
                 <div class="sorted__box">
                     <a href="#!" class="kind__of__sort by__popularity">
                         <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/popularity.svg">
@@ -294,7 +293,7 @@ wp_reset_postdata(); // Сбрасываем $post
             </div>
 
         </div>
-    </div>
+    </form>
 </section>
 
 <?php
@@ -344,7 +343,7 @@ if (count($_POST)) {
     }
     $uni_filtred = $tmp;
     unset($tmp);
-} elseif(!count($_POST) && isset($_COOKIE['countries'])) {
+} elseif (!count($_POST) && isset($_COOKIE['countries'])) {
     // Фильтрация по странам из куков
     foreach ($uni as $item) {
         if (str_contains($_COOKIE['countries'], $item['country'])) {
@@ -386,9 +385,23 @@ if (count($_POST)) {
     $uni_filtred = $uni;
 }
 
-echo '<pre>';
-print_r($uni_filtred);
-echo '</pre>';
+// Фильтрация по имени университета
+if (isset($_POST['search__university'])) {
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        if (str_contains(mb_strtolower($uni_filtred[$i]['name']), htmlspecialchars(mb_strtolower($_POST['search__university'])))) {
+            $tmp[] = $uni_filtred[$i];
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+}
+
+if (count($_POST)) {
+    echo '<pre>';
+    print_r($uni_filtred);
+    echo '</pre>';
+}
 
 ?>
 
@@ -398,33 +411,34 @@ echo '</pre>';
         <h5 class="offcanvas-title" id="offcanvasRightLabel">Фильтры</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
     </div>
-    <div class="offcanvas__box">
+    <form class="offcanvas__box" method="post">
         <div class="offcanvas-body">
             <div class="universities__filtres">
                 <div class="accordion" id="country__panel">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-country">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#country-collapseOne" aria-expanded="true" aria-controls="country-collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#country-mobile" aria-expanded="true" aria-controls="country-collapseOne">
                                 <div class="caption">
                                     <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/flag.png">
                                     Страны
                                 </div>
                             </button>
                         </h2>
-                        <div id="country-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div id="country-mobile" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="country_1_1" class="checkbox__item" checked="checked">
-                                    <label for="country_1_1" class="input__name">Страна 1</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="country_1_2" class="checkbox__item">
-                                    <label for="country_1_2" class="input__name">Страна 2</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="country_1_3" class="checkbox__item">
-                                    <label for="country_1_3" class="input__name">Страна 3</label>
-                                </div>
+                                <!-- Фильтр по странам -->
+                                <?php
+                                deliteDuplicateAndSort($countriesList);
+                                foreach ($countriesList as $country) {
+                                    echo '<div class="accordion__body__item">';
+                                    echo "<input type='checkbox' class='checkbox__item new__country__item' name='$country' id='mobile_filter_$country'";
+                                    if (!isset($_COOKIE['countries']) || str_contains($_COOKIE['countries'], $country)) {
+                                        echo "checked='checked'";
+                                    }
+                                    echo "><label for='mobile_filter_$country' class='input__name'>$country</label>";
+                                    echo '</div>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -434,27 +448,29 @@ echo '</pre>';
                 <div class="accordion" id="form__panel">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-form">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#form-collapseOne" aria-expanded="true" aria-controls="form-collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#form-mobile" aria-expanded="true" aria-controls="form-collapseOne">
                                 <div class="caption">
                                     <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/form.png">
                                     Форма обучения
                                 </div>
                             </button>
                         </h2>
-                        <div id="form-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div id="form-mobile" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="form_1_1" class="checkbox__item" checked="checked">
-                                    <label for="form_1_1" class="input__name">Форма обучения 1</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="form_1_2" class="checkbox__item">
-                                    <label for="form_1_2" class="input__name">Форма обучения 2</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="form_1_3" class="checkbox__item">
-                                    <label for="form_1_3" class="input__name">Форма обучения 3</label>
-                                </div>
+                                <!-- Фильтр по формам обучения -->
+                                <?php
+                                joinInArray($formList);
+                                deliteDuplicateAndSort($formList);
+                                foreach ($formList as $item) {
+                                    echo '<div class="accordion__body__item">';
+                                    echo "<input type='checkbox' class='checkbox__item new__study__form__item' name='$item' id='mobile_filter_$item'";
+                                    if (!isset($_COOKIE['study_form']) || str_contains($_COOKIE['study_form'], $item)) {
+                                        echo "checked='checked'";
+                                    }
+                                    echo "><label for='mobile_filter_$item' class='input__name'>$item</label>";
+                                    echo '</div>';
+                                }
+                                ?>
                             </div>
                         </div>
                     </div>
@@ -465,40 +481,43 @@ echo '</pre>';
                 <div class="accordion" id="form__panel">
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="panelsStayOpen-direction">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#direction-collapseOne" aria-expanded="true" aria-controls="direction-collapseOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#direction-mobile" aria-expanded="true" aria-controls="direction-collapseOne">
                                 <div class="caption">
                                     <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/direction.png">
                                     Направление обучения
                                 </div>
                             </button>
                         </h2>
-                        <div id="direction-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                        <div id="direction-mobile" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                             <div class="accordion-body">
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="direction_1_1" class="checkbox__item" checked="checked">
-                                    <label for="direction_1_1" class="input__name">Направление обучения 1</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="direction_1_2" class="checkbox__item">
-                                    <label for="direction_1_2" class="input__name">Направление обучения 2</label>
-                                </div>
-                                <div class="accordion__body__item">
-                                    <input type="checkbox" name="" id="direction_1_3" class="checkbox__item">
-                                    <label for="direction_1_3" class="input__name">Направление обучения 3</label>
-                                </div>
+                                <!-- Фильтр по специальностям -->
+                                <?php
+                                joinInArray($speciality);
+                                deliteDuplicateAndSort($speciality);
+                                foreach ($speciality as $item) {
+                                    echo '<div class="accordion__body__item">';
+                                    echo "<input type='checkbox' class='checkbox__item new__speciality__item' name='$item' id='mobile_filter_$item'";
+                                    if (!isset($_COOKIE['speciality']) || str_contains($_COOKIE['speciality'], $item)) {
+                                        echo "checked='checked'";
+                                    }
+                                    echo "><label for='mobile_filter_$item' class='input__name'>$item</label>";
+                                    echo '</div>';
+                                }
+                                ?>
                             </div>
                         </div>
-                        <button href="#!" class="filtres__btn" data-bs-toggle="offcanvas" type="button" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                            <div class="icon__circle">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/ok.svg">
-                            </div>
-                            Применить
-                        </button>
+
                     </div>
                 </div>
             </div>
+            <button class="filtres__btn" id="filtres__mobile__btn" disabled="true" data-bs-toggle="offcanvas" type="button" data-bs-target="#universities__filtres" aria-controls="offcanvasRight">
+                <div class="icon__circle">
+                    <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/ok.svg">
+                </div>
+                Применить
+            </button>
         </div>
-    </div>
+    </form>
 </div>
 
 
