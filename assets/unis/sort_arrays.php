@@ -57,30 +57,39 @@ function joinInArray(&$array)
     unset($tmp);
 }
 
-function removeSpacesAndConvertToArray($str){
+function removeSpacesAndConvertToArray($str)
+{
     do {
         $count = 0;
         $rize = 0;
-            $tmp = str_replace(', ', ',', $str, $count);
-            if ($count) {
-                $rize++;
-            }
+        $tmp = str_replace(', ', ',', $str, $count);
+        if ($count) {
+            $rize++;
+        }
         $str = $tmp;
         unset($tmp);
     } while ($rize);
     do {
         $count = 0;
         $rize = 0;
-            $tmp = str_replace(' ,', ',', $str, $count);
-            if ($count) {
-                $rize++;
-            }
+        $tmp = str_replace(' ,', ',', $str, $count);
+        if ($count) {
+            $rize++;
+        }
         $str = $tmp;
         unset($tmp);
     } while ($rize);
     $newArray = [];
     $newArray = array_merge($newArray, explode(',', $str));
-    return($newArray);
+    return ($newArray);
 }
 
-?>
+function cutStr(string $str, int $maxLenght, string $strToReplace)
+{
+    if (mb_strlen($str) > $maxLenght) {
+        $newStr = mb_substr($str, 0, $maxLenght - 3);
+        return($newStr . $strToReplace . $strToReplace . $strToReplace);
+    } else {
+        return($str);
+    }
+}

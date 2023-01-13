@@ -214,6 +214,8 @@
       .uni__foto {
         border: 1px solid #ecf6fc;
         border-radius: 20px;
+        width: 246px;
+        height: 176px;
       }
       .uni__data {
         width: 100%;
@@ -312,6 +314,9 @@
             border-left: 1px dashed rgba(226, 237, 243, 0.5);
           }
         }
+        .more__information {
+          color: #52bfff;
+        }
         .uni__studi__direction {
           grid-column: 2/4;
           grid-row: 2;
@@ -319,9 +324,6 @@
           display: flex;
           flex-direction: column;
           flex-wrap: wrap;
-          .more__information {
-            color: #52bfff;
-          }
         }
       }
     }
@@ -423,7 +425,7 @@
           padding-right: 9px;
           gap: 14px;
           max-width: 300px;
-          margin: 0 auto;
+          margin: 5px auto;
           display: flex;
           flex-direction: column;
           height: fit-content;

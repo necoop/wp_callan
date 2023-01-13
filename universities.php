@@ -41,6 +41,7 @@ if ($myposts) {
                 'id' => get_the_ID(),
                 'name' => get_the_title(),
                 'country' => get_field('position_country'),
+                'address' => get_field('position_address'),
                 'study_form' =>  get_field('study-form'),
                 'speciality' => get_field('speciality'),
                 'popularity' => get_field('about_popularity'),
@@ -52,7 +53,99 @@ if ($myposts) {
 }
 wp_reset_postdata(); // Сбрасываем $post
 
+if (count($_POST)) {
+    $uni_filtred = [];
+    // Фильтрация по странам
+    foreach ($uni as $item) {
+        if (isset($_POST['country_' . $item['country']])) {
+            $uni_filtred[] = $item;
+        }
+    }
 
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
+        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
+    }
+
+    // Фильтрация по формам обучения
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['study_form'] as $item) {
+            if (isset($_POST["form_" . str_replace(' ', '_', $item)])) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+
+
+    // Фильтрация по специальностям
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['speciality'] as $item) {
+            if (isset($_POST["speciality_" . str_replace(' ', '_', $item)])) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+} elseif (!count($_POST) && isset($_COOKIE['countries'])) {
+    // Фильтрация по странам из куков
+    foreach ($uni as $item) {
+        if (str_contains($_COOKIE['countries'], $item['country'])) {
+            $uni_filtred[] = $item;
+        }
+    }
+
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
+        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
+    }
+
+    // Фильтрация по формам обучения из куков
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['study_form'] as $item) {
+            if (str_contains($_COOKIE['study_form'], $item)) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+
+    // Фильтрация по специальностям из куков
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        foreach ($uni_filtred[$i]['speciality'] as $item) {
+            if (str_contains($_COOKIE['speciality'], $item)) {
+                $tmp[] = $uni_filtred[$i];
+                break;
+            }
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+} else {
+    $uni_filtred = $uni;
+}
+
+// Фильтрация по имени университета
+if (isset($_POST['search__university'])) {
+    $tmp = [];
+    for ($i = 0; $i < count($uni_filtred); $i++) {
+        if (str_contains(mb_strtolower($uni_filtred[$i]['name']), htmlspecialchars(mb_strtolower($_POST['search__university'])))) {
+            $tmp[] = $uni_filtred[$i];
+        }
+    }
+    $uni_filtred = $tmp;
+    unset($tmp);
+}
 
 
 
@@ -196,8 +289,118 @@ wp_reset_postdata(); // Сбрасываем $post
                 </div>
             </div>
 
-            <div class="university__card">
+
+            <?php
+            foreach ($uni_filtred as $item) {
+                echo ('<div class="university__card">
                 <!-- Слайдер -->
+                <div class="slider__container">
+                    <div class="swiper">
+                        <div class="rating">');
+                for ($i = 0; $i < $item['popularity']; $i++) {
+                    echo ('<img src="' . get_bloginfo('template_directory') . '/assets/unis/img/star.svg">');
+                }
+                echo ('
+                        </div>
+                        <!-- Additional required wrapper -->
+                        <div class="swiper-wrapper">');
+
+                foreach ($item['galerey'] as $itemGalerey) {
+                    echo ('<div class="swiper-slide">');
+                    echo ('<img src="' . $itemGalerey . '" class="uni__foto">');
+                    echo ('</div>');
+                }
+
+                echo ('</div>
+                        <!-- Слайдер кнопки навигации -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>
+                    </div>
+                </div>
+                <!-- Слайдер окончание -->
+
+                <a href="#!" class="uni__data">
+                    <div class="uni__name">' . $item['name'] . '</div>
+                    <div class="uni__price__box">
+                        <div class="uni__price__dashed__top"></div>
+                        <div class="uni__price__dashed__left"></div>
+                        <div class="price__box__inner">
+                            <div class="rating">');
+                for ($i = 0; $i < $item['popularity']; $i++) {
+                    echo ('<img src="' . get_bloginfo('template_directory') . '/assets/unis/img/star.svg">');
+                }
+                echo ('
+                            </div>
+                            <div class="uni__pice__box">
+                                <div class="uin__price">
+                                    от ' . number_format($item['price'], 0, '', ' ') . ' €
+                                </div>
+                                <div class="price__unit">
+                                    за семестр
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uni__data__form uni__studi__form">');
+
+                if ((count($item['study_form']) <= 4)) {
+                    for ($i = 0; $i < count($item['study_form']); $i++) {
+                        echo '<div class="studi__form__item">';
+                        echo (cutStr($item['study_form'][$i], 17, '.'));
+                        echo '</div>';
+                    }
+                } else {
+                    for ($i = 0; $i < 3; $i++) {
+                        echo '<div class="studi__form__item">';
+                        echo (cutStr($item['study_form'][$i], 17, '.'));
+                        echo '</div>';
+                    }
+                    echo '<div class="more__information">';
+                    echo ('Ещё ' . count($item['study_form']) - 3 . '...');
+                    echo '</div>';
+                }
+                echo ('
+                    </div>
+                    <div class="uni__data__form uni__studi__direction">');
+
+                if ((count($item['speciality']) <= 8)) {
+                    for ($i = 0; $i < count($item['speciality']); $i++) {
+                        echo '<div class="studi__form__item">';
+                        echo (cutStr($item['speciality'][$i], 17, '.'));
+                        echo '</div>';
+                    }
+                } else {
+                    for ($i = 0; $i < 7; $i++) {
+                        echo '<div class="studi__form__item">';
+                        echo (cutStr($item['speciality'][$i], 17, '.'));
+                        echo '</div>';
+                    }
+                    echo '<div class="more__information">';
+                    echo ('Ещё ' . count($item['speciality']) - 7 . '...');
+                    echo '</div>';
+                }
+
+
+
+                echo ('
+                    </div>
+                    <div class="uni__data__form uni__country">
+                        <div class="country__address__1">
+                            <b>');
+                echo ($item['country']);
+                echo ('</b>
+                        </div>
+                        <div class="division__dashed"></div>
+                        <div class="country__address__2">');
+                echo ($item['address']);
+                echo ('
+                        </div>
+                    </div>
+                </a>
+            </div>');
+            } ?>
+
+            <!-- <div class="university__card">
                 <div class="slider__container">
                     <div class="swiper">
                         <div class="rating">
@@ -207,21 +410,17 @@ wp_reset_postdata(); // Сбрасываем $post
                             <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
                             <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
                         </div>
-                        <!-- Additional required wrapper -->
                         <div class="swiper-wrapper">
-                            <!-- Слайды -->
                             <div class="swiper-slide">
                                 <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
                                 <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
                                 <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
                             </div>
                         </div>
-                        <!-- Слайдер кнопки навигации -->
                         <div class="swiper-button-prev"></div>
                         <div class="swiper-button-next"></div>
                     </div>
                 </div>
-                <!-- Слайдер окончание -->
 
                 <a href="#!" class="uni__data">
                     <div class="uni__name">Название университета</div>
@@ -290,7 +489,8 @@ wp_reset_postdata(); // Сбрасываем $post
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> -->
+
 
         </div>
     </form>
@@ -298,104 +498,7 @@ wp_reset_postdata(); // Сбрасываем $post
 
 <?php
 
-
-
-
-
-
-if (count($_POST)) {
-    $uni_filtred = [];
-    // Фильтрация по странам
-    foreach ($uni as $item) {
-        if (isset($_POST['country_' . $item['country']])) {
-            $uni_filtred[] = $item;
-        }
-    }
-
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
-        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
-    }
-
-    // Фильтрация по формам обучения
-    $tmp = [];
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        foreach ($uni_filtred[$i]['study_form'] as $item) {
-            if (isset($_POST["form_" . str_replace(' ', '_', $item)])) {
-                $tmp[] = $uni_filtred[$i];
-                break;
-            }
-        }
-    }
-    $uni_filtred = $tmp;
-    unset($tmp);
-
-
-    // Фильтрация по специальностям
-    $tmp = [];
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        foreach ($uni_filtred[$i]['speciality'] as $item) {
-            if (isset($_POST["speciality_" . str_replace(' ', '_', $item)])) {
-                $tmp[] = $uni_filtred[$i];
-                break;
-            }
-        }
-    }
-    $uni_filtred = $tmp;
-    unset($tmp);
-} elseif (!count($_POST) && isset($_COOKIE['countries'])) {
-    // Фильтрация по странам из куков
-    foreach ($uni as $item) {
-        if (str_contains($_COOKIE['countries'], $item['country'])) {
-            $uni_filtred[] = $item;
-        }
-    }
-
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        $uni_filtred[$i]['study_form'] = removeSpacesAndConvertToArray($uni_filtred[$i]['study_form']);
-        $uni_filtred[$i]['speciality'] = removeSpacesAndConvertToArray($uni_filtred[$i]['speciality']);
-    }
-
-    // Фильтрация по формам обучения из куков
-    $tmp = [];
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        foreach ($uni_filtred[$i]['study_form'] as $item) {
-            if (str_contains($_COOKIE['study_form'], $item)) {
-                $tmp[] = $uni_filtred[$i];
-                break;
-            }
-        }
-    }
-    $uni_filtred = $tmp;
-    unset($tmp);
-
-    // Фильтрация по специальностям из куков
-    $tmp = [];
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        foreach ($uni_filtred[$i]['speciality'] as $item) {
-            if (str_contains($_COOKIE['speciality'], $item)) {
-                $tmp[] = $uni_filtred[$i];
-                break;
-            }
-        }
-    }
-    $uni_filtred = $tmp;
-    unset($tmp);
-} else {
-    $uni_filtred = $uni;
-}
-
-// Фильтрация по имени университета
-if (isset($_POST['search__university'])) {
-    $tmp = [];
-    for ($i = 0; $i < count($uni_filtred); $i++) {
-        if (str_contains(mb_strtolower($uni_filtred[$i]['name']), htmlspecialchars(mb_strtolower($_POST['search__university'])))) {
-            $tmp[] = $uni_filtred[$i];
-        }
-    }
-    $uni_filtred = $tmp;
-    unset($tmp);
-}
+echo (bloginfo('template_directory'));
 
 if (count($_POST)) {
     echo '<pre>';

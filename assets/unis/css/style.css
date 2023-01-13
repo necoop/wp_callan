@@ -213,6 +213,8 @@
 .unis .universities__content .university__card .uni__foto {
   border: 1px solid #ecf6fc;
   border-radius: 20px;
+  width: 246px;
+  height: 176px;
 }
 .unis .universities__content .university__card .uni__data {
   width: 100%;
@@ -313,6 +315,9 @@
   margin-top: 3px;
   border-left: 1px dashed rgba(226, 237, 243, 0.5);
 }
+.unis .universities__content .university__card .uni__data .more__information {
+  color: #52bfff;
+}
 .unis .universities__content .university__card .uni__data .uni__studi__direction {
   grid-column: 2/4;
   grid-row: 2;
@@ -320,9 +325,6 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
-}
-.unis .universities__content .university__card .uni__data .uni__studi__direction .more__information {
-  color: #52bfff;
 }
 
 .slider__container {
@@ -408,7 +410,7 @@
     padding-right: 9px;
     gap: 14px;
     max-width: 300px;
-    margin: 0 auto;
+    margin: 5px auto;
     display: flex;
     flex-direction: column;
     height: -webkit-fit-content;
