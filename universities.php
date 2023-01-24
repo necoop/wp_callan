@@ -147,6 +147,24 @@ if (isset($_POST['search__university'])) {
     unset($tmp);
 }
 
+// Сортировка
+if(isset($_COOKIE['sorted_by'])){
+    if($_COOKIE['sorted_by'] === 'popularity'){
+        usort($uni_filtred, function($a,$b){
+            return($b['popularity']-$a['popularity']);
+        });
+    }
+    if($_COOKIE['sorted_by'] === 'price_up'){
+        usort($uni_filtred, function($a,$b){
+            return($a['price']-$b['price']);
+        });
+    }
+    if($_COOKIE['sorted_by'] === 'price_down'){
+        usort($uni_filtred, function($a,$b){
+            return($b['price']-$a['price']);
+        });
+    }
+}
 
 
 
@@ -278,11 +296,11 @@ if (isset($_POST['search__university'])) {
                         <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/popularity.svg">
                         По популярности
                     </a>
-                    <a href="#!" class="kind__of__sort by__price">
+                    <a href="#!" class="kind__of__sort by__price price__up">
                         <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/price_up.svg">
                         По цене
                     </a>
-                    <a href="#!" class="kind__of__sort by__price">
+                    <a href="#!" class="kind__of__sort by__price price__down">
                         <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/price_down.svg">
                         По цене
                     </a>
@@ -379,8 +397,6 @@ if (isset($_POST['search__university'])) {
                     echo ('Ещё ' . count($item['speciality']) - 7 . '...');
                     echo '</div>';
                 }
-
-
 
                 echo ('
                     </div>
