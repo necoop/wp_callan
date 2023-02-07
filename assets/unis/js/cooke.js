@@ -106,7 +106,6 @@ function wait(event) {
 // Отправляем форму по истечении времени
 function send() {
   document.getElementById("universities__filtres").submit();
-  console.log("Отправка!");
 }
 function counter() {
   timeToWait -= 1000;

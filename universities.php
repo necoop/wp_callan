@@ -513,15 +513,12 @@ if(isset($_COOKIE['sorted_by'])){
 </section>
 
 <?php
+get_template_part('contact_us');
 
-echo (bloginfo('template_directory'));
+get_template_part('contacts');
 
-if (count($_POST)) {
-    echo '<pre>';
-    print_r($uni_filtred);
-    echo '</pre>';
-}
-
+// Модальное окно
+get_template_part('connect-window');
 ?>
 
 <!-- Боковое меню фильтров -->
