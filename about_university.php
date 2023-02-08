@@ -38,6 +38,10 @@ if ($myposts) {
                 'speciality' => get_field('speciality'),
                 'popularity' => get_field('about_popularity'),
                 'price' => get_field('about_price'),
+                'language' => get_field('language'),
+                'establish-year' => get_field('about_establish-year'),
+                'study-numbers' => get_field('about_study-numbers'),
+                'living-price' => get_field('about_living-price'),
                 'galerey' => get_post_gallery_images()
             ];
         }
@@ -77,37 +81,37 @@ wp_reset_postdata(); // Сбрасываем $post
                             <li class="unis__data__item" id="unis__data__item1">
                                 <div class="unis__data__inner">
                                     <div class="title">Расположение</div>
-                                    <div class="data">США, Флорида</div>
+                                    <div class="data"><? echo($uni['country'] . ', ' . $uni['address']); ?></div>
                                 </div>
                             </li>
                             <li class="unis__data__item" id="unis__data__item2">
                                 <div class="unis__data__inner">
                                     <div class="title">Язык обучения</div>
-                                    <div class="data">Английский</div>
+                                    <div class="data"><? echo $uni['language']; ?></div>
                                 </div>
                             </li>
                             <li class="unis__data__item" id="unis__data__item3">
                                 <div class="unis__data__inner">
                                     <div class="title">Год основания</div>
-                                    <div class="data">1990</div>
+                                    <div class="data"><? echo $uni['establish-year']; ?></div>
                                 </div>
                             </li>
                             <li class="unis__data__item" id="unis__data__item4">
                                 <div class="unis__data__inner">
                                     <div class="title">Кол-во студентов</div>
-                                    <div class="data">10 000</div>
+                                    <div class="data"><? echo number_format($uni['study-numbers'], 0, '', ' '); ?></div>
                                 </div>
                             </li>
                             <li class="unis__data__item" id="unis__data__item5">
                                 <div class="unis__data__inner">
                                     <div class="title">Средняя цена за семестр</div>
-                                    <div class="data">1 000 евро</div>
+                                    <div class="data"><? echo number_format($uni['price'], 0, '', ' '); ?> евро</div>
                                 </div>
                             </li>
                             <li class="unis__data__item" id="unis__data__item6">
                                 <div class="unis__data__inner">
                                     <div class="title">Средняя цена за проживание</div>
-                                    <div class="data">1 000 евро</div>
+                                    <div class="data"><? echo number_format($uni['living-price'], 0, '', ' '); ?> евро</div>
                                 </div>
                             </li>
                         </ul>

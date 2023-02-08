@@ -174,9 +174,6 @@
 .unis .universities__content .nav__box .search__panel .search__university::-moz-placeholder {
   color: #98b6c9;
 }
-.unis .universities__content .nav__box .search__panel .search__university:-ms-input-placeholder {
-  color: #98b6c9;
-}
 .unis .universities__content .nav__box .search__panel .search__university::placeholder {
   color: #98b6c9;
 }
@@ -413,7 +410,6 @@
     margin: 5px auto;
     display: flex;
     flex-direction: column;
-    height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
   }
@@ -442,7 +438,6 @@
     grid-row: 4;
   }
   .unis .universities__container .universities__content .university__card .uni__data .uni__studi__direction {
-    height: -webkit-fit-content;
     height: -moz-fit-content;
     height: fit-content;
   }
