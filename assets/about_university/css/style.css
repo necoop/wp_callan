@@ -1,0 +1,235 @@
+.unis__info__top > * {
+  margin-top: 31px;
+}
+
+.unis__foto {
+  position: relative;
+}
+.unis__foto img {
+  width: 100%;
+  border-radius: 20px;
+  height: 340px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.unis__foto .rating {
+  position: absolute;
+  left: 28px;
+  top: 28px;
+  display: flex;
+}
+.unis__foto .rating img {
+  margin-right: 6px;
+  width: 14px;
+  height: 14px;
+}
+
+.unis__description h3 {
+  text-align: start;
+  font-size: 24px;
+  line-height: 30px;
+  color: #313131;
+}
+.unis__description p {
+  color: #7a7a7a;
+  font-family: "Gotham Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: justify;
+  text-indent: 15px;
+  margin-bottom: 25px;
+}
+
+.unis__data {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 0px 40px rgba(119, 205, 255, 0.3);
+  border-radius: 20px;
+  padding: 13px;
+}
+.unis__data .unis__data__list {
+  background: #ffffff;
+  border: 1px dashed #e2edf3;
+  border-radius: 20px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.button-whith-icon {
+  margin-top: -24px;
+  min-width: 65%;
+}
+
+.unis__data__item {
+  padding: 13px;
+}
+.unis__data__item .unis__data__inner {
+  display: flex;
+  text-align: start;
+}
+.unis__data__item .unis__data__inner .title {
+  width: 41%;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #98b6c9;
+}
+.unis__data__item .unis__data__inner .data {
+  width: 59%;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #7a7a7a;
+}
+
+#unis__data__item1 {
+  background: #f8fcff;
+  border-radius: 20px 20px 0px 0px;
+  height: 47px;
+}
+
+#unis__data__item2 {
+  background: #ffffff;
+}
+
+#unis__data__item3,
+#unis__data__item5 {
+  background: #f8fcff;
+}
+
+.unis__info__bottom > * {
+  margin-top: 60px;
+}
+.unis__info__bottom .document__box__inner h3 {
+  color: #313131;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  max-width: 270px;
+  margin: 0 auto;
+}
+.unis__info__bottom .document__box__inner .document__list {
+  margin-top: 15px;
+}
+.unis__info__bottom .document__box__inner .document__list .document__item {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #7a7a7a;
+  position: relative;
+  left: 28px;
+  margin-bottom: 8px;
+}
+.unis__info__bottom .document__box__inner .document__list .document__item::before {
+  content: "";
+  background-image: url(../img/tick.png);
+  display: block;
+  width: 20px;
+  height: 20px;
+  bottom: 0;
+  position: absolute;
+  left: -26px;
+}
+
+.studi__directions {
+  margin-top: 60px;
+}
+.studi__directions h3 {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  color: #313131;
+}
+
+.questions-item {
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+}
+
+.unis h2 {
+  margin-top: 0;
+}
+
+.speciality__row > * {
+  margin-bottom: 10px;
+}
+
+.gallery {
+  margin-top: 134px;
+}
+.gallery h3 {
+  color: #313131;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.swiper {
+  max-width: 850px;
+  width: 100%;
+  max-height: 477px;
+  border-radius: 20px;
+}
+
+.swiper-slide img {
+  max-width: 850px;
+  width: 100%;
+  max-height: 477px;
+  border-radius: 20px;
+}
+
+.swiper-pagination-bullet {
+  transition: 0.3s ease all;
+}
+
+.swiper-pagination-bullet-active {
+  background: #68c7ff;
+}
+
+.swiper-pagination-bullets.swiper-pagination-horizontal {
+  bottom: -50px;
+}
+
+.swiper__box {
+  position: relative;
+}
+
+.swiper-button-next:after {
+  content: "";
+  background-image: url(../img/arr-right.png);
+  width: 52px;
+  height: 52px;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.swiper-button-next:hover::after {
+  background-image: url(../img/arr-right-hover.png);
+}
+
+.swiper-button-next:active::after {
+  background-image: url(../img/arr-right-active.png);
+}
+
+.swiper-button-prev:after {
+  content: "";
+  background-image: url(../img/arr-left.png);
+  width: 52px;
+  height: 52px;
+  background-repeat: no-repeat;
+  position: absolute;
+}
+
+.swiper-button-prev:hover::after {
+  background-image: url(../img/arr-left-hover.png);
+}
+
+.swiper-button-prev:active::after {
+  background-image: url(../img/arr-left-active.png);
+}
+
+@media (max-width: 991px) {
+  .swiper-button-prev, .swiper-button-next {
+    display: none;
+  }
+}/*# sourceMappingURL=style.css.map */

@@ -337,7 +337,7 @@ if(isset($_COOKIE['sorted_by'])){
                 </div>
                 <!-- Слайдер окончание -->
 
-                <a href="#!" class="uni__data">
+                <a href="' . home_url() . '/about_university?id='); echo($item['id']); echo('" class="uni__data">
                     <div class="uni__name">' . $item['name'] . '</div>
                     <div class="uni__price__box">
                         <div class="uni__price__dashed__top"></div>
