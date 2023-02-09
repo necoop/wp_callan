@@ -21,6 +21,7 @@
     }
   }
 }
+
 .unis__description {
   h3 {
     text-align: start;
@@ -28,7 +29,7 @@
     line-height: 30px;
     color: #313131;
   }
-  p {
+  .unis__text {
     color: #7a7a7a;
     font-family: "Gotham Pro";
     font-style: normal;
@@ -38,6 +39,9 @@
     text-align: justify;
     text-indent: 15px;
     margin-bottom: 25px;
+    p{
+      margin-bottom: 10px;
+    }
   }
 }
 .unis__data {
@@ -63,7 +67,6 @@
   .unis__data__inner {
     display: flex;
     text-align: start;
-    // padding: 13px;
     .title {
       width: 41%;
       font-weight: 400;
@@ -92,8 +95,6 @@
   background: #f8fcff;
 }
 .unis__info__bottom {
-  // display: flex;
-  // gap: 21px;
   & > * {
     margin-top: 60px;
   }
@@ -148,6 +149,9 @@
 .speciality__row > * {
   margin-bottom: 10px;
 }
+.unis .unis__name{
+  margin-top: 35px;
+}
 
 // Секция gallery
 .gallery {
@@ -183,6 +187,7 @@
 }
 .swiper__box{
   position: relative;
+  margin-bottom: 70px;
 }
 .swiper-button-next:after{
   content: '';

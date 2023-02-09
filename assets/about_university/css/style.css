@@ -30,7 +30,7 @@
   line-height: 30px;
   color: #313131;
 }
-.unis__description p {
+.unis__description .unis__text {
   color: #7a7a7a;
   font-family: "Gotham Pro";
   font-style: normal;
@@ -40,6 +40,9 @@
   text-align: justify;
   text-indent: 15px;
   margin-bottom: 25px;
+}
+.unis__description .unis__text p {
+  margin-bottom: 10px;
 }
 
 .unis__data {
@@ -154,6 +157,10 @@
   margin-bottom: 10px;
 }
 
+.unis .unis__name {
+  margin-top: 35px;
+}
+
 .gallery {
   margin-top: 134px;
 }
@@ -191,6 +198,7 @@
 
 .swiper__box {
   position: relative;
+  margin-bottom: 70px;
 }
 
 .swiper-button-next:after {
