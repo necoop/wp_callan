@@ -10,14 +10,29 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('slider-unis', get_template_directory_uri() . '/assets/unis/js/slider.js', array('swiper-bundle'), 'null', true);
 });
 
+// Предзагрузка иконок кнопок
+add_filter('wp_resource_hints', 'button_preload', 10, 2);
+function button_preload($urls, $relation_type)
+{
+    if ('preload' === $relation_type) {
+        $urls[] = [
+            'href'        => get_bloginfo('template_directory') . "/assets/unis/img/checkbox_off.svg",
+            'as'          => 'image'
+        ];
+    }
+    return $urls;
+}
+// Окончание предзагрузки иконок кнопок
+
 get_header();
+
+
+
+
 
 // Подключение файла обработки массивов
 require(get_template_directory() . '/assets/unis/sort_arrays.php');
 
-?>
-
-<?php
 global $post;
 
 $myposts = get_posts([
@@ -29,8 +44,7 @@ $myposts = get_posts([
 if ($myposts) {
     foreach ($myposts as $post) {
         setup_postdata($post);
-?>
-<?php
+
         // Формируем массив для фильтра
         if (get_field('about_activity')) {
             $countriesList[] = get_field('position_country');
@@ -52,6 +66,9 @@ if ($myposts) {
     }
 }
 wp_reset_postdata(); // Сбрасываем $post
+
+
+
 
 if (count($_POST)) {
     $uni_filtred = [];
@@ -148,28 +165,27 @@ if (isset($_POST['search__university'])) {
 }
 
 // Сортировка
-if(isset($_COOKIE['sorted_by'])){
-    if($_COOKIE['sorted_by'] === 'popularity'){
-        usort($uni_filtred, function($a,$b){
-            return($b['popularity']-$a['popularity']);
+if (isset($_COOKIE['sorted_by'])) {
+    if ($_COOKIE['sorted_by'] === 'popularity') {
+        usort($uni_filtred, function ($a, $b) {
+            return ($b['popularity'] - $a['popularity']);
         });
     }
-    if($_COOKIE['sorted_by'] === 'price_up'){
-        usort($uni_filtred, function($a,$b){
-            return($a['price']-$b['price']);
+    if ($_COOKIE['sorted_by'] === 'price_up') {
+        usort($uni_filtred, function ($a, $b) {
+            return ($a['price'] - $b['price']);
         });
     }
-    if($_COOKIE['sorted_by'] === 'price_down'){
-        usort($uni_filtred, function($a,$b){
-            return($b['price']-$a['price']);
+    if ($_COOKIE['sorted_by'] === 'price_down') {
+        usort($uni_filtred, function ($a, $b) {
+            return ($b['price'] - $a['price']);
         });
     }
 }
 
-
-
-
 ?>
+
+
 
 <section class="unis container">
     <div class="page-link col-12 tmp">
@@ -337,7 +353,9 @@ if(isset($_COOKIE['sorted_by'])){
                 </div>
                 <!-- Слайдер окончание -->
 
-                <a href="' . home_url() . '/about_university?id='); echo($item['id']); echo('" class="uni__data">
+                <a href="' . home_url() . '/about_university?id=');
+                echo ($item['id']);
+                echo ('" class="uni__data">
                     <div class="uni__name">' . $item['name'] . '</div>
                     <div class="uni__price__box">
                         <div class="uni__price__dashed__top"></div>
@@ -361,40 +379,44 @@ if(isset($_COOKIE['sorted_by'])){
                     </div>
                     <div class="uni__data__form uni__studi__form">');
 
-                if ((count($item['study_form']) <= 4)) {
-                    for ($i = 0; $i < count($item['study_form']); $i++) {
+                // echo('<pre>');
+                // print_r($item['study_form']);
+                // echo('<pre>');
+
+                if ((count(removeSpacesAndConvertToArray($item['study_form'])) <= 4)) {
+                    for ($i = 0; $i < count(removeSpacesAndConvertToArray($item['study_form'])); $i++) {
                         echo '<div class="studi__form__item">';
-                        echo (cutStr($item['study_form'][$i], 17, '.'));
+                        echo (cutStr(removeSpacesAndConvertToArray($item['study_form'])[$i], 17, '.'));
                         echo '</div>';
                     }
                 } else {
                     for ($i = 0; $i < 3; $i++) {
                         echo '<div class="studi__form__item">';
-                        echo (cutStr($item['study_form'][$i], 17, '.'));
+                        echo (cutStr(removeSpacesAndConvertToArray($item['study_form'])[$i], 17, '.'));
                         echo '</div>';
                     }
                     echo '<div class="more__information">';
-                    echo ('Ещё ' . count($item['study_form']) - 3 . '...');
+                    echo ('Ещё ' . count(removeSpacesAndConvertToArray($item['study_form'])) - 3 . '...');
                     echo '</div>';
                 }
                 echo ('
                     </div>
                     <div class="uni__data__form uni__studi__direction">');
 
-                if ((count($item['speciality']) <= 8)) {
-                    for ($i = 0; $i < count($item['speciality']); $i++) {
+                if ((count(removeSpacesAndConvertToArray($item['speciality'])) <= 8)) {
+                    for ($i = 0; $i < count(removeSpacesAndConvertToArray($item['speciality'])); $i++) {
                         echo '<div class="studi__form__item">';
-                        echo (cutStr($item['speciality'][$i], 17, '.'));
+                        echo (cutStr(removeSpacesAndConvertToArray($item['speciality'])[$i], 17, '.'));
                         echo '</div>';
                     }
                 } else {
                     for ($i = 0; $i < 7; $i++) {
                         echo '<div class="studi__form__item">';
-                        echo (cutStr($item['speciality'][$i], 17, '.'));
+                        echo (cutStr(removeSpacesAndConvertToArray($item['speciality'])[$i], 17, '.'));
                         echo '</div>';
                     }
                     echo '<div class="more__information">';
-                    echo ('Ещё ' . count($item['speciality']) - 7 . '...');
+                    echo ('Ещё ' . count(removeSpacesAndConvertToArray($item['speciality'])) - 7 . '...');
                     echo '</div>';
                 }
 
@@ -415,99 +437,6 @@ if(isset($_COOKIE['sorted_by'])){
                 </a>
             </div>');
             } ?>
-
-            <!-- <div class="university__card">
-                <div class="slider__container">
-                    <div class="swiper">
-                        <div class="rating">
-                            <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                            <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                            <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                            <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                            <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                        </div>
-                        <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/slider/slide_1.jpg" class="uni__foto">
-                            </div>
-                        </div>
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>
-                    </div>
-                </div>
-
-                <a href="#!" class="uni__data">
-                    <div class="uni__name">Название университета</div>
-                    <div class="uni__price__box">
-                        <div class="uni__price__dashed__top"></div>
-                        <div class="uni__price__dashed__left"></div>
-                        <div class="price__box__inner">
-                            <div class="rating">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                                <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/star.svg">
-                            </div>
-                            <div class="uni__pice__box">
-                                <div class="uin__price">
-                                    от 3 000 €
-                                </div>
-                                <div class="price__unit">
-                                    за семестр
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="uni__data__form uni__studi__form">
-                        <div class="studi__form__item">
-                            Бакалавриат
-                        </div>
-                        <div class="studi__form__item">
-                            Магистратура
-                        </div>
-                    </div>
-                    <div class="uni__data__form uni__studi__direction">
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="studi__form__item">
-                            Архитектура
-                        </div>
-                        <div class="more__information">
-                            Ещё 30...
-                        </div>
-                    </div>
-                    <div class="uni__data__form uni__country">
-                        <div class="country__address__1">
-                            <b>Москва,</b> &nbsp Россия
-                        </div>
-                        <div class="division__dashed"></div>
-                        <div class="country__address__2">
-                            <b>Москва,</b> &nbsp Россия
-                        </div>
-                    </div>
-                </a>
-            </div> -->
-
-
         </div>
     </form>
 </section>
@@ -636,9 +565,9 @@ get_template_part('connect-window');
     </form>
 </div>
 
-
-
 <?php
+
+
 
 get_footer();
 

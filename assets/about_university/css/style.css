@@ -203,7 +203,7 @@
 
 .swiper-button-next:after {
   content: "";
-  background-image: url(../img/arr-right.png);
+  background-image: url(../../img/ui/arr-right.png);
   width: 52px;
   height: 52px;
   background-repeat: no-repeat;
@@ -211,16 +211,16 @@
 }
 
 .swiper-button-next:hover::after {
-  background-image: url(../img/arr-right-hover.png);
+  background-image: url(../../img/ui/arr-right-hover.png);
 }
 
 .swiper-button-next:active::after {
-  background-image: url(../img/arr-right-active.png);
+  background-image: url(../../img/ui/arr-right-active.png);
 }
 
 .swiper-button-prev:after {
   content: "";
-  background-image: url(../img/arr-left.png);
+  background-image: url(../../img/ui/arr-left.png);
   width: 52px;
   height: 52px;
   background-repeat: no-repeat;
@@ -228,11 +228,11 @@
 }
 
 .swiper-button-prev:hover::after {
-  background-image: url(../img/arr-left-hover.png);
+  background-image: url(../../img/ui/arr-left-hover.png);
 }
 
 .swiper-button-prev:active::after {
-  background-image: url(../img/arr-left-active.png);
+  background-image: url(../../img/ui/arr-left-active.png);
 }
 
 @media (max-width: 991px) {

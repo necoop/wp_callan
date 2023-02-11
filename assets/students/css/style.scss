@@ -1,0 +1,219 @@
+@font-face {
+  font-family: "Gotham Pro";
+  src: url("../../fonts/GothamPro.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Gotham Pro Medium";
+  src: url("../../fonts/GothamPro-Medium.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: "Gotham Pro Bold";
+  src: url("../../fonts/GothamPro-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+.students {
+  margin-top: 114px;
+  min-height: 300px;
+  h2 {
+    margin-top: 35px;
+  }
+  .form__button{
+    margin-bottom: 50px;
+  }
+}
+.students__list {
+  margin-top: 40px;
+}
+ol,
+ul {
+  padding: 0;
+}
+.students__item {
+  max-width: 850px;
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  padding: 12px;
+  padding-right: 20px;
+  display: flex;
+  gap: 20px;
+  border: 1px solid #ecf6fc;
+  border-radius: 20px;
+  margin: 0 auto 20px auto;
+}
+.swiper {
+  max-width: 246px;
+  margin: 0;
+  border-radius: 20px;
+}
+.students__img {
+  max-width: 246px;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 15px;
+  color: #ffffff;
+  position: relative;
+  transition: 0.3s ease all;
+}
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  &::after {
+    color: #52bfff;
+  }
+}
+.swiper-button-next::after {
+  right: -10px;
+}
+.swiper-button-prev::after {
+  left: -10px;
+}
+.student__info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 552px;
+  width: 100%;
+  height: fit-content;
+}
+.student__name {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  color: #7a7a7a;
+  height: fit-content;
+}
+.university__name {
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #7a7a7a;
+  position: relative;
+  width: fit-content;
+  justify-self: end;
+  height: fit-content;
+  &::before {
+    content: "";
+    background-image: url(../../unis/img/form.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: block;
+    width: 14px;
+    height: 14px;
+    position: absolute;
+    left: -20px;
+    top: 4px;
+  }
+}
+.student__text {
+  align-self: start;
+  margin-top: 6px;
+  grid-column: 1/3;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #7a7a7a;
+  text-align: justify;
+  text-indent: 10px;
+}
+
+.form__button {
+  min-width: 240px;
+  height: 48px;
+  background: linear-gradient(213.88deg, #b1e2ff -67.78%, #68c7ff 175.48%);
+  border-radius: 25px;
+  width: fit-content;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 15px;
+  text-align: center;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 43px;
+  cursor: pointer;
+  border: 1.5px solid;
+  margin: 0 auto;
+  position: relative;
+  transition: 0.3s ease all;
+  margin-top: 30px;
+  &::before {
+    content: "";
+    width: 38px;
+    height: 38px;
+    position: absolute;
+    left: 5px;
+    border-radius: 50%;
+    background: linear-gradient(322.12deg, #b1e2ff 1.25%, #68c7ff 89.56%)
+      no-repeat;
+    border-radius: 25px;
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    background-image: url(../img/down-arrow.png);
+    background-repeat: no-repeat;
+    display: block;
+    width: 16px;
+    height: 16px;
+    left: 16px;
+  }
+}
+.form__button:hover {
+  background: linear-gradient(213.88deg, #c6eaff -67.78%, #81d0ff 175.48%);
+  &::before {
+    background: linear-gradient(322.12deg, #b1e2ff 36.44%, #68c7ff 89.56%);
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+  }
+}
+.form__button:active {
+  background: linear-gradient(213.88deg, #86d2ff -67.78%, #47bbff 175.48%);
+  &::before {
+    background: linear-gradient(213.88deg, #86d2ff -67.78%, #47bbff 175.48%);
+    transform: matrix(-1, 0, 0, 1, 0, 0);
+  }
+  top: 1px;
+}
+
+@media (max-width: 767px) {
+  .students__item {
+    flex-direction: column;
+  }
+  .student__info {
+    grid-template-columns: 1fr;
+  }
+  .student__name {
+    order: 1;
+  }
+
+  .university__name {
+    justify-self: start;
+    left: 20px;
+    margin-top: 6px;
+    order: 3;
+  }
+  .student__text {
+    grid-column: 1/2;
+    order: 2;
+  }
+  .swiper,
+  .students__img {
+    max-width: none;
+  }
+  .form__button{
+    width: 95%;
+    min-width: 0;
+  }
+}

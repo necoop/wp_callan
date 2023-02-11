@@ -26,7 +26,7 @@ Template Name: main
         }
         wp_reset_postdata(); // Сбрасываем $post
         ?>
-        <button type="button" class="btn">Связаться с нами</button>
+        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#buttonConnect">Связаться с нами</button>
       </div>
       <ul class="navbar-contacts-bottom">
         <li class="navbar-contacts-item"><a href="<?php the_field('place_map'); ?>" target="_blank" class="contact-item">

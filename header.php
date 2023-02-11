@@ -61,7 +61,7 @@
                           <a href="<?php bloginfo('url'); ?>/universities" class="nav-link" data-foo="<?php echo get_the_title(249); ?>"><?php echo get_the_title(249); ?></a>
                         </li>
                         <li class="nav-item">
-                          <a href="#students" class="nav-link" data-foo="Студенты">Студенты</a>
+                          <a href="<?php bloginfo('url'); ?>/students" class="nav-link" data-foo="<?php echo get_the_title(418); ?>"><?php echo get_the_title(418); ?></a>
                         </li>
                         <li class="nav-item">
                           <a href="#" class="nav-link" data-foo="Новости">Новости</a>
