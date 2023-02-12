@@ -2,7 +2,7 @@
 
 // Функции
 // Удаляем дубликаты из массива и сортируем его
-function deliteDuplicateAndSort(array &$array)
+function deliteDuplicateAndSort(array $array)
 {
     $arrayFiltred = [];
     foreach ($array as $arrayItem) {
@@ -19,43 +19,44 @@ function deliteDuplicateAndSort(array &$array)
     }
     $array = $arrayFiltred;
     asort($array);
+    return ($array);
 }
 
 // Удаляем разделители в строках (запятые) и объединяем их в массив
-function joinInArray(&$array)
-{
-    do {
-        $count = 0;
-        $rize = 0;
-        foreach ($array as $words => $item) {
-            $tmp[] = str_replace(', ', ',', $item, $count);
-            if ($count) {
-                $rize++;
-            }
-        }
-        $array = $tmp;
-        unset($tmp);
-    } while ($rize);
-    do {
-        $count = 0;
-        $rize = 0;
-        foreach ($array as $words => $item) {
-            $tmp[] = str_replace(' ,', ',', $item, $count);
-            if ($count) {
-                $rize++;
-            }
-        }
-        $array = $tmp;
-        unset($tmp);
-    } while ($rize);
+// function joinInArray(&$array)
+// {
+//     do {
+//         $count = 0;
+//         $rize = 0;
+//         foreach ($array as $words => $item) {
+//             $tmp[] = str_replace(', ', ',', $item, $count);
+//             if ($count) {
+//                 $rize++;
+//             }
+//         }
+//         $array = $tmp;
+//         unset($tmp);
+//     } while ($rize);
+//     do {
+//         $count = 0;
+//         $rize = 0;
+//         foreach ($array as $words => $item) {
+//             $tmp[] = str_replace(' ,', ',', $item, $count);
+//             if ($count) {
+//                 $rize++;
+//             }
+//         }
+//         $array = $tmp;
+//         unset($tmp);
+//     } while ($rize);
 
-    $tmp = [];
-    foreach ($array as $item) {
-        $tmp = array_merge($tmp, explode(',', $item));
-    }
-    $array = $tmp;
-    unset($tmp);
-}
+//     $tmp = [];
+//     foreach ($array as $item) {
+//         $tmp = array_merge($tmp, explode(',', $item));
+//     }
+//     $array = $tmp;
+//     unset($tmp);
+// }
 
 function removeSpacesAndConvertToArray($str)
 {
@@ -94,4 +95,57 @@ function cutStr(string $str, int $maxLenght, string $strToReplace)
     } else {
         return ($str);
     }
+}
+
+function prepareArray($array)
+{
+    $newArray = [];
+    foreach ($array as $str) {
+        do {
+            $count = 0;
+            $rize = 0;
+            $tmp = str_replace(', ', ',', $str, $count);
+            if ($count) {
+                $rize++;
+            }
+            $str = $tmp;
+            unset($tmp);
+        } while ($rize);
+        do {
+            $count = 0;
+            $rize = 0;
+            $tmp = str_replace(' ,', ',', $str, $count);
+            if ($count) {
+                $rize++;
+            }
+            $str = $tmp;
+            unset($tmp);
+        } while ($rize);
+        $newArray[] = $str;
+    }
+    $array = $newArray;
+    unset($newArray);
+    $newArray = [];
+    foreach ($array as $item) {
+        foreach (explode(',', $item) as $str) {
+            $newArray[] = $str;
+        }
+    }
+    $array = $newArray;
+    unset($newArray);
+    $arrayFiltred = [];
+    foreach ($array as $arrayItem) {
+        $equality = false;
+        foreach ($arrayFiltred as $arrayFiltredItem) {
+            if ($arrayItem == $arrayFiltredItem) {
+                $equality = true;
+                break;
+            }
+        }
+        if (!$equality) {
+            $arrayFiltred[] = $arrayItem;
+        }
+    }
+    asort($arrayFiltred);
+    return $arrayFiltred;
 }

@@ -252,9 +252,10 @@ if (isset($_COOKIE['sorted_by'])) {
 
                             <!-- Фильтр по формам обучения -->
                             <?php
-                            joinInArray($formList);
-                            deliteDuplicateAndSort($formList);
-                            foreach ($formList as $item) {
+
+                            // joinInArray($formList);
+                            // deliteDuplicateAndSort($formList);
+                            foreach (prepareArray($formList) as $item) {
                                 echo '<div class="accordion__body__item">';
                                 echo "<input type='checkbox' class='checkbox__item study__form__item' name='form_$item' id='$item'";
                                 if (!isset($_COOKIE['study_form']) || str_contains($_COOKIE['study_form'], $item)) {
@@ -283,9 +284,9 @@ if (isset($_COOKIE['sorted_by'])) {
                         <div class="accordion-body">
                             <!-- Фильтр по специальностям -->
                             <?php
-                            joinInArray($speciality);
-                            deliteDuplicateAndSort($speciality);
-                            foreach ($speciality as $item) {
+                            // joinInArray($speciality);
+                            // deliteDuplicateAndSort($speciality);
+                            foreach (prepareArray($speciality) as $item) {
                                 echo '<div class="accordion__body__item">';
                                 echo "<input type='checkbox' class='checkbox__item speciality__item' name='speciality_$item' id='$item'";
                                 if (!isset($_COOKIE['speciality']) || str_contains($_COOKIE['speciality'], $item)) {
@@ -504,9 +505,9 @@ get_template_part('connect-window');
                             <div class="accordion-body">
                                 <!-- Фильтр по формам обучения -->
                                 <?php
-                                joinInArray($formList);
-                                deliteDuplicateAndSort($formList);
-                                foreach ($formList as $item) {
+                                // joinInArray($formList);
+                                // deliteDuplicateAndSort($formList);
+                                foreach (prepareArray($formList) as $item) {
                                     echo '<div class="accordion__body__item">';
                                     echo "<input type='checkbox' class='checkbox__item new__study__form__item' name='$item' id='mobile_filter_$item'";
                                     if (!isset($_COOKIE['study_form']) || str_contains($_COOKIE['study_form'], $item)) {
@@ -537,9 +538,9 @@ get_template_part('connect-window');
                             <div class="accordion-body">
                                 <!-- Фильтр по специальностям -->
                                 <?php
-                                joinInArray($speciality);
-                                deliteDuplicateAndSort($speciality);
-                                foreach ($speciality as $item) {
+                                // joinInArray($speciality);
+                                // deliteDuplicateAndSort($speciality);
+                                foreach (prepareArray($speciality) as $item) {
                                     echo '<div class="accordion__body__item">';
                                     echo "<input type='checkbox' class='checkbox__item new__speciality__item' name='$item' id='mobile_filter_$item'";
                                     if (!isset($_COOKIE['speciality']) || str_contains($_COOKIE['speciality'], $item)) {
