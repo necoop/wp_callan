@@ -97,6 +97,7 @@ function cutStr(string $str, int $maxLenght, string $strToReplace)
     }
 }
 
+//Удаляем разделители и повторы в строке, преобразуем её в массив
 function prepareArray($array)
 {
     $newArray = [];
@@ -148,4 +149,14 @@ function prepareArray($array)
     }
     asort($arrayFiltred);
     return $arrayFiltred;
+}
+
+//Обрезаем текст до нужного количества символов
+function cutText($text, int $lenght)
+{
+    if (mb_strlen($text) > $lenght) {
+        echo str_replace('" "', '<p>', nl2br(mb_substr($text, 0, $lenght))  . '...');
+    } else {
+        echo nl2br($text);
+    }
 }

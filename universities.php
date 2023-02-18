@@ -538,8 +538,6 @@ get_template_part('connect-window');
                             <div class="accordion-body">
                                 <!-- Фильтр по специальностям -->
                                 <?php
-                                // joinInArray($speciality);
-                                // deliteDuplicateAndSort($speciality);
                                 foreach (prepareArray($speciality) as $item) {
                                     echo '<div class="accordion__body__item">';
                                     echo "<input type='checkbox' class='checkbox__item new__speciality__item' name='$item' id='mobile_filter_$item'";
@@ -567,8 +565,6 @@ get_template_part('connect-window');
 </div>
 
 <?php
-
-
 
 get_footer();
 

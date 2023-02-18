@@ -15,8 +15,8 @@
                   <li class="footer-nav-item"><a href="<?php bloginfo('url'); ?>/about-us"><?php echo get_the_title(195); ?></a></li>
                   <li class="footer-nav-item"><a href="<?php bloginfo('url'); ?>/service"><?php echo get_the_title(239); ?></a></li>
                   <li class="footer-nav-item"><a href="<?php bloginfo('url'); ?>/universities"><?php echo get_the_title(249); ?></a></li>
-                  <li class="footer-nav-item"><a href="#students">Студенты</a></li>
-                  <li class="footer-nav-item"><a href="#!">Новости</a></li>
+                  <li class="footer-nav-item"><a href="<?php bloginfo('url'); ?>/students"><?php echo get_the_title(418); ?></a></li>
+                  <li class="footer-nav-item"><a href="<?php bloginfo('url'); ?>/news_list"><?php echo get_the_title(453); ?></a></li>
                   <li class="footer-nav-item"><a href="#contacts">Контакты</a></li>
                 </ul>
               </div>
