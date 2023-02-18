@@ -30,9 +30,11 @@ get_header();
 require(get_template_directory() . '/assets/unis/sort_arrays.php');
 
 //Подключаем описание класса новости
-require('class_news.php');
+// require('class_news.php');
+// $current_news = new News;
 
-$current_news = new News;
+$similar_news = [];
+$newsList = [];
 
 if (isset($_GET['news_id'])) {
     global $post;
@@ -44,23 +46,47 @@ if (isset($_GET['news_id'])) {
     if ($myposts) {
         foreach ($myposts as $post) {
             setup_postdata($post);
-            if ($_GET['news_id'] == get_the_ID()) {
-                $current_news->title = get_the_title();
-                $current_news->foto = get_field('news_foto');
-                $current_news->content = get_field('news_content');
-                $current_news->time = get_field('time_to_read');
-                $current_news->color = get_field('time_color');
-                $current_news->tags = get_field('tags');
-                break;
-            }
+            $similar_news[] = [
+                'id' => get_the_ID(),
+                'tags' => removeSpacesAndConvertToArray(mb_strtolower(get_field('tags')))
+            ];
+            $newsList[get_the_ID()] = [
+                'title' => get_the_title(),
+                'foto' => get_field('news_foto'),
+                'content' => get_field('news_content'),
+                'time' => get_field('time_to_read'),
+                'color' => get_field('time_color'),
+                'tags' => removeSpacesAndConvertToArray(mb_strtolower(get_field('tags')))
+            ];
+            // if ($_GET['news_id'] == get_the_ID()) {
+            //     // $current_news->title = get_the_title();
+            //     // $current_news->foto = get_field('news_foto');
+            //     // $current_news->content = get_field('news_content');
+            //     // $current_news->time = get_field('time_to_read');
+            //     // $current_news->color = get_field('time_color');
+            //     // $current_news->tags = removeSpacesAndConvertToArray(mb_strtolower(get_field('tags')));
+            // }
         }
     } else {
         // Постов не найдено
     }
 }
 
-
 wp_reset_postdata(); // Сбрасываем $post
+
+//Формируем список похожих новостей по совпадающим тегам
+$similarNewsId = [];
+foreach ($similar_news as $item) {
+    if (!($item['id'] == $_GET['news_id'])) {
+        foreach ($newsList[$_GET['news_id']]['tags'] as $quertyString) {
+            if (in_array($quertyString, $item['tags'])) {
+                $similarNewsId[] = $item['id'];
+                break;
+            }
+        }
+    }
+}
+//На выходе получаем массив $similarNewsId с совпадающими тегами
 
 ?>
 
@@ -68,20 +94,20 @@ wp_reset_postdata(); // Сбрасываем $post
     <div class="page-link col-12">
         <a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/img/ui/home.svg"><?php echo get_the_title(8); ?> &nbsp &nbsp ></a><a href="<? the_permalink(453) ?>"> <?php echo get_the_title(453) ?></a> &nbsp &nbsp > &nbsp &nbsp
         <?
-        if (mb_strlen($current_news->title) > 33) {
-            echo (mb_substr($current_news->title, 0, 30) . '...');
+        if (mb_strlen($newsList[$_GET['news_id']]['title']) > 33) {
+            echo (mb_substr($newsList[$_GET['news_id']]['title'], 0, 30) . '...');
         } else {
-            echo $current_news->title;
+            echo $newsList[$_GET['news_id']]['title'];
         }
         ?>
     </div>
-    <h2 class="news__caption text-center col-12"><? echo $current_news->title ?></h2>
+    <h2 class="news__caption text-center col-12"><? echo $newsList[$_GET['news_id']]['title'] ?></h2>
     <div class="news__box">
-        <img class="news__image" src="<? echo $current_news->foto ?>" alt="">
+        <img class="news__image" src="<? echo $newsList[$_GET['news_id']]['foto'] ?>" alt="">
         <div class="time__to__read">
-            <span style="color: #<? echo $current_news->color ?>;">Время чтения: <b><? echo $current_news->time ?> минут</b></span>
+            <span style="color: #<? echo $newsList[$_GET['news_id']]['color'] ?>;">Время чтения: <b><? echo $newsList[$_GET['news_id']]['time'] ?> минут</b></span>
         </div>
-        <? echo '<p>' . str_replace("\n", '</p><p>', $current_news->content) . '</p>'  ?>
+        <? echo '<p>' . str_replace("\n", '</p><p>', $newsList[$_GET['news_id']]['content']) . '</p>'  ?>
     </div>
 </section>
 <section class="similar__news container">
@@ -186,9 +212,12 @@ wp_reset_postdata(); // Сбрасываем $post
     </div>
 </section>
 
+
 <?
 
-echo $current_news->title;
-echo $current_news->foto;
+// echo($newsList[$_GET['id']]);
 
+echo '<pre>';
+print_r($similarNewsId);
+echo '</pre>';
 ?>
