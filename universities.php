@@ -26,10 +26,6 @@ function button_preload($urls, $relation_type)
 
 get_header();
 
-
-
-
-
 // Подключение файла обработки массивов
 require(get_template_directory() . '/assets/unis/sort_arrays.php');
 
@@ -66,9 +62,6 @@ if ($myposts) {
     }
 }
 wp_reset_postdata(); // Сбрасываем $post
-
-
-
 
 if (count($_POST)) {
     $uni_filtred = [];
@@ -194,7 +187,7 @@ if (isset($_COOKIE['sorted_by'])) {
     <h2 id="myUniversitets">Университеты</h2>
     <div class="vector"></div>
 
-    <button href="#!" class="filtres__btn" data-bs-toggle="offcanvas" type="button" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+    <button class="filtres__btn" data-bs-toggle="offcanvas" type="button" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
         <div class="icon__circle">
             <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/filter.svg">
         </div>
@@ -554,7 +547,7 @@ get_template_part('connect-window');
                     </div>
                 </div>
             </div>
-            <button class="filtres__btn" id="filtres__mobile__btn" disabled="true" data-bs-toggle="offcanvas" type="button" data-bs-target="#universities__filtres" aria-controls="offcanvasRight">
+            <button class="filtres__btn" id="filtres__mobile__btn" enabled="false" data-bs-toggle="offcanvas" type="button" data-bs-target="#universities__filtres" aria-controls="offcanvasRight">
                 <div class="icon__circle">
                     <img src="<?php bloginfo('template_directory'); ?>/assets/unis/img/ok.svg">
                 </div>

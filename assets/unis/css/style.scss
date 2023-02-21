@@ -579,7 +579,7 @@
     // border: 1px dashed #E2EDF3;
   }
 }
-#filtres__mobile__btn[disabled="true"] {
+#filtres__mobile__btn[enabled="false"] {
   .icon__circle{
     background: #fff;
   }

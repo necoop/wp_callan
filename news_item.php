@@ -92,14 +92,16 @@ foreach ($similar_news as $item) {
 
 <section class="news__item container">
     <div class="page-link col-12">
-        <a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/img/ui/home.svg"><?php echo get_the_title(8); ?> &nbsp &nbsp ></a><a href="<? the_permalink(453) ?>"> <?php echo get_the_title(453) ?></a> &nbsp &nbsp > &nbsp &nbsp
-        <?
-        if (mb_strlen($newsList[$_GET['news_id']]['title']) > 33) {
-            echo (mb_substr($newsList[$_GET['news_id']]['title'], 0, 30) . '...');
-        } else {
-            echo $newsList[$_GET['news_id']]['title'];
-        }
-        ?>
+        <a class="page__title" href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/img/ui/home.svg"><?php echo get_the_title(8); ?> &nbsp &nbsp ></a><a class="page__title" href="<? the_permalink(453) ?>"> <?php echo get_the_title(453) ?></a>
+        <div class="page__title"> &nbsp &nbsp > &nbsp &nbsp
+            <?
+            if (mb_strlen($newsList[$_GET['news_id']]['title']) > 33) {
+                echo (mb_substr($newsList[$_GET['news_id']]['title'], 0, 30) . '...');
+            } else {
+                echo $newsList[$_GET['news_id']]['title'];
+            }
+            ?>
+        </div>
     </div>
     <h2 class="news__caption text-center col-12"><? echo $newsList[$_GET['news_id']]['title'] ?></h2>
     <div class="news__box">
@@ -110,114 +112,53 @@ foreach ($similar_news as $item) {
         <? echo '<p>' . str_replace("\n", '</p><p>', $newsList[$_GET['news_id']]['content']) . '</p>'  ?>
     </div>
 </section>
-<section class="similar__news container">
-    <h2 class="col-12 text-center">Похожие новости</h2>
-    <div class="swiper__box">
-        <div class="swiper">
-            <!-- Additional required wrapper -->
-            <div class="swiper-wrapper">
-                <!-- Slides -->
-                <div class="swiper-slide">
-                    <a href="#!" class="news__item__href">
-                        <div class="similar__news__box">
-                            <img src="./news_item/img/img.jpg" alt="Новость фото" class="similar__news__img">
-                            <div class="similar__news__inner">
-                                <p class="similar__news__title">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore</p>
-                                <p class="similar__news__text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis
-                                    nostrud
-                                    exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit! Lorem
-                                    ipsum
-                                    dolor
-                                    sit amet,
-                                    consectetur adipiscing elit...;</p>
-                                <div class="time__to__read">
-                                    <span>Время чтения: <b>10 минут</b></span>
+<?
+if (count($similarNewsId)) {
+?>
+    <section class="similar__news container">
+        <h2 class="col-12 text-center">Похожие новости</h2>
+        <div class="swiper__box">
+            <div class="swiper">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <? foreach ($similarNewsId as $item) {
+                    ?>
+                        <div class="swiper-slide">
+                            <a href="<?php bloginfo('url'); ?>/news_item/?news_id=<? echo $item ?>" class="news__item__href">
+                                <div class="similar__news__box">
+                                    <img src="<? echo $newsList[$item]['foto'] ?>" alt="Новость фото" class="similar__news__img">
+                                    <div class="similar__news__inner">
+                                        <p class="similar__news__title"><? echo $newsList[$item]['title'] ?></p>
+                                        <div class="similar__news__textbox">
+                                            <div class="similar__news__text"><? echo $newsList[$item]['content'] ?>
+                                                <div class="news__shade"></div>
+                                            </div>
+
+                                        </div>
+                                        <div class="time__to__read">
+                                                <span>Время чтения: <b><? echo $newsList[$item]['time'] ?> минут</b></span>
+                                            </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#!" class="news__item__href">
-                        <div class="similar__news__box">
-                            <img src="./news_item/img/img.jpg" alt="Новость фото" class="similar__news__img">
-                            <div class="similar__news__inner">
-                                <p class="similar__news__title">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore</p>
-                                <p class="similar__news__text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis
-                                    nostrud
-                                    exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit! Lorem
-                                    ipsum
-                                    dolor
-                                    sit amet,
-                                    consectetur adipiscing elit...;</p>
-                                <div class="time__to__read">
-                                    <span>Время чтения: <b>10 минут</b></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="swiper-slide">
-                    <a href="#!" class="news__item__href">
-                        <div class="similar__news__box">
-                            <img src="./news_item/img/img.jpg" alt="Новость фото" class="similar__news__img">
-                            <div class="similar__news__inner">
-                                <p class="similar__news__title">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore</p>
-                                <p class="similar__news__text">Lorem ipsum dolor sit amet, consectetur adipiscing
-                                    elit,
-                                    sed
-                                    do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis
-                                    nostrud
-                                    exercitation. Lorem ipsum dolor sit amet, consectetur adipiscing elit! Lorem
-                                    ipsum
-                                    dolor
-                                    sit amet,
-                                    consectetur adipiscing elit...;</p>
-                                <div class="time__to__read">
-                                    <span>Время чтения: <b>10 минут</b></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
+                    <?
+                    }
+                    ?>
                 </div>
             </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-        <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-    </div>
-</section>
-
-
+    </section>
 <?
+}
 
-// echo($newsList[$_GET['id']]);
+// Модальное окно
+get_template_part('connect-window');
 
-echo '<pre>';
-print_r($similarNewsId);
-echo '</pre>';
+get_template_part('contact_us');
+get_template_part('contacts');
+get_footer();
 ?>

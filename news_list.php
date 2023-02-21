@@ -38,9 +38,12 @@ get_header();
                     <a href="<? bloginfo('url') ?>/news_item?news_id=<? the_ID() ?>" class="news__inner__box">
                         <img src="<?php the_field('news_foto') ?>" alt="Новость фото" class="news__img">
                         <div class="news__text__box">
-                            <p class="news__title"><? the_title() ?></p>
-                            <div class="news__content">
-                                <? the_field('news_content') ?>
+                            <div class="news__box__inner">
+                                <p class="news__title"><? the_title() ?></p>
+                                <div class="news__content">
+                                    <? the_field('news_content') ?>
+                                </div>
+                                <!-- <div class="news__shade__cover"></div> -->
                                 <div class="news__shade"></div>
                             </div>
                             <div class="time__to__read">

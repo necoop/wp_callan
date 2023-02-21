@@ -1122,9 +1122,10 @@ h1 blue {
 @media (max-width: 991px) {
   .contact-us {
     padding-bottom: 25px;
+    height: 1303px;
   }
   .contact-inner {
-    top: 27px;
+    top: 87px;
   }
   .contact-form {
     top: 0;

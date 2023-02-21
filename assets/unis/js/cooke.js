@@ -7,8 +7,8 @@ let new_arr = document.querySelectorAll(
 );
 
 let filtresBtn = document.getElementById("filtres__mobile__btn");
-let filtresBtnDisabled = true;
-filtresBtn.addEventListener("touchstart", trySend);
+let filtresBtnEnabled = false;
+filtresBtn.addEventListener('touchend', trySend);
 
 // Функции сортировки
 let sortedBox = document.querySelector(".sorted__box");
@@ -30,7 +30,7 @@ function sort(event) {
 }
 
 function trySend() {
-  if (!filtresBtnDisabled) {
+  if (filtresBtnEnabled) {
     send();
   }
 }
@@ -40,7 +40,7 @@ arr.forEach((element) => {
 });
 
 new_arr.forEach((element) => {
-  element.addEventListener("click", cooke_mobile);
+  element.addEventListener("touchend", cooke_mobile);
 });
 
 // Время ожидания выбора пользователя
@@ -70,7 +70,12 @@ function wait(event) {
       new_choise[i].checked = "";
     }
   }
-  document.cookie = "countries=" + countries + "; max-age=" + 60 * 60 * 24 * 30;
+  document.cookie =
+    "countries=" +
+    countries +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 
   // Сохраняем список выбранных форм обучения в куки сроком действия 30 дней
   choise = document.getElementsByClassName("study__form__item");
@@ -85,7 +90,11 @@ function wait(event) {
     }
   }
   document.cookie =
-    "study_form=" + studyForm + "; max-age=" + 60 * 60 * 24 * 30;
+    "study_form=" +
+    studyForm +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 
   // Сохраняем список выбранных специальностей в куки сроком действия 30 дней
   choise = document.getElementsByClassName("speciality__item");
@@ -100,7 +109,11 @@ function wait(event) {
     }
   }
   document.cookie =
-    "speciality=" + speciality + "; max-age=" + 60 * 60 * 24 * 30;
+    "speciality=" +
+    speciality +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 }
 
 // Отправляем форму по истечении времени
@@ -117,8 +130,8 @@ function counter() {
 }
 
 function cooke_mobile() {
-  filtresBtnDisabled = false;
-  filtresBtn.setAttribute("disabled", false);
+  filtresBtnEnabled = true;
+  filtresBtn.setAttribute("enabled", true);
   // Сохраняем список выбранных стран в куки сроком действия 30 дней в мобильном фильтре
   let new_choise = document.getElementsByClassName("new__country__item");
   let choise = document.getElementsByClassName("country__item");
@@ -131,7 +144,12 @@ function cooke_mobile() {
       choise[i].checked = "";
     }
   }
-  document.cookie = "countries=" + countries + "; max-age=" + 60 * 60 * 24 * 30;
+  document.cookie =
+    "countries=" +
+    countries +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 
   // Сохраняем список выбранных форм обучения в куки сроком действия 30 дней в мобильном фильтре
   choise = document.getElementsByClassName("study__form__item");
@@ -146,7 +164,11 @@ function cooke_mobile() {
     }
   }
   document.cookie =
-    "study_form=" + studyForm + "; max-age=" + 60 * 60 * 24 * 30;
+    "study_form=" +
+    studyForm +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 
   // Сохраняем список выбранных специальностей в куки сроком действия 30 дней в мобильном фильтре
   choise = document.getElementsByClassName("speciality__item");
@@ -161,5 +183,9 @@ function cooke_mobile() {
     }
   }
   document.cookie =
-    "speciality=" + speciality + "; max-age=" + 60 * 60 * 24 * 30;
+    "speciality=" +
+    speciality +
+    "; max-age=" +
+    60 * 60 * 24 * 30 +
+    "; SameSite=Strict";
 }

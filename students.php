@@ -71,6 +71,12 @@ get_header();
 
 <?php
 
+get_template_part('contact_us');
+get_template_part('contacts');
+
+// Модальное окно
+get_template_part('connect-window');
+
 get_footer();
 
 ?>
