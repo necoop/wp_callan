@@ -245,9 +245,6 @@ if (isset($_COOKIE['sorted_by'])) {
 
                             <!-- Фильтр по формам обучения -->
                             <?php
-
-                            // joinInArray($formList);
-                            // deliteDuplicateAndSort($formList);
                             foreach (prepareArray($formList) as $item) {
                                 echo '<div class="accordion__body__item">';
                                 echo "<input type='checkbox' class='checkbox__item study__form__item' name='form_$item' id='$item'";

@@ -16,8 +16,8 @@ get_header();
 ?>
 
 <section class="students container">
-    <div class="page-link col-12">
-        <a href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/img/ui/home.svg">Главная &nbsp &nbsp ></a>Студенты
+<div class="page-link col-12">
+        <a class="page__title" href="<?php bloginfo('url'); ?>"><img src="<?php bloginfo('template_directory'); ?>/assets/img/ui/home.svg">Главная &nbsp &nbsp ></a>Студенты
     </div>
     <h2>Студенты</h2>
     <ul class="students__list">
@@ -64,9 +64,6 @@ get_header();
         ?>
 
     </ul>
-    <!-- <form method="post">
-        <button class="form__button" name="numberOfPosts" value="<? echo ($numberOfPosts) ?>">Ещё</button>
-    </form> -->
 </section>
 
 <?php

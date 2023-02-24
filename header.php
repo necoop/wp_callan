@@ -5,7 +5,7 @@
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?php wp_title('', 'true', '' ); ?></title>
+  <title><?php wp_title('', 'true', ''); ?></title>
 
   <?php wp_head(); ?>
 
@@ -73,7 +73,9 @@
                           <li><a href="#" class="language-active text-uppercase">рус</a></li>
                           <li><a href="#" class="text-uppercase">uz</a></li>
                         </ul>
-                        <button type="button"  class="reqest__btn" data-bs-toggle="modal" data-bs-target="#buttonConnect">Оставить заявку</button>
+                        <a href="<?php bloginfo('template_directory'); ?>/consultation">
+                          <button type="button" class="reqest__btn">Оставить заявку</button>
+                        </a>
                         <ul class="navbar-contacts">
                           <li class="navbar-contacts-item"><a href="#">
                               <img src="<?php bloginfo('template_directory'); ?>/assets/img/nav/navbar-contact-time.png" alt="часы">

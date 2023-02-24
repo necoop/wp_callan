@@ -295,3 +295,172 @@ if ('disable_gutenberg') {
 	});
 }
 ## Окончание отключения Гутенберг (новый редактор блоков в WordPress).
+
+//Подключение формы заявки на консультацию
+add_action('wp_enqueue_scripts', 'consultation_scripts');
+/**
+ * Подключение файлов скрипта формы обратной связи
+ *
+ * @see https://wpruse.ru/?p=3224
+ */
+function consultation_scripts()
+{
+
+	// Обрабтка полей формы
+	wp_enqueue_script('jquery-form');
+
+	// Подключаем файл скрипта
+	wp_enqueue_script(
+		'consultation',
+		get_stylesheet_directory_uri() . '/assets/consultation/scripts/consultation.js',
+		array('jquery'),
+		1.0,
+		true
+	);
+
+	// Задаем данные обьекта ajax
+	wp_localize_script(
+		'consultation',
+		'consultation_object',
+		array(
+			'url'   => admin_url('admin-ajax.php'),
+			'nonce' => wp_create_nonce('consultation-nonce'),
+		)
+	);
+}
+
+add_action('wp_ajax_consultation_action', 'consultation_callback');
+add_action('wp_ajax_nopriv_consultation_action', 'consultation_callback');
+/**
+ * Обработка скрипта
+ *
+ * @see https://wpruse.ru/?p=3224
+ */
+function consultation_callback()
+{
+
+	// Массив ошибок
+	$err_message = array();
+
+	// Проверяем nonce. Если проверкане прошла, то блокируем отправку
+	if (!wp_verify_nonce($_POST['nonce'], 'consultation-nonce')) {
+		wp_die('Данные отправлены с левого адреса');
+	}
+
+	// Проверяем на спам. Если скрытое поле заполнено или снят чек, то блокируем отправку
+	if (false === $_POST['consultation_anticheck'] || !empty($_POST['consultation_submitted'])) {
+		wp_die('Пошел нахрен, мальчик!(c)');
+	}
+
+	// Проверяем полей имени, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['art_first_name']) || !isset($_POST['art_first_name'])) {
+		$err_message['first_name'] = 'Пожалуйста, введите ваше имя.';
+	} else {
+		$art_first_name = sanitize_text_field($_POST['art_first_name']);
+	}
+
+	// Проверяем полей фамилии, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['art_last_name']) || !isset($_POST['art_last_name'])) {
+		$err_message['last_name'] = 'Пожалуйста, введите вашу фамилию.';
+	} else {
+		$art_last_name = sanitize_text_field($_POST['art_last_name']);
+	}
+
+	// Проверяем поле даты рождения, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['art_birth_date']) || !isset($_POST['art_birth_date'])) {
+		$err_message['birth_date'] = 'Пожалуйста, введите дату рождения.';
+	} else {
+		$art_birth_date = sanitize_text_field($_POST['art_birth_date']);
+	}
+
+	// Проверяем поле город, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['art_city']) || !isset($_POST['art_city'])) {
+		$err_message['city'] = 'Пожалуйста, введите город.';
+	} else {
+		$art_city = sanitize_text_field($_POST['art_city']);
+	}
+
+	// Проверяем поле телефон, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['phone']) || !isset($_POST['phone'])) {
+		$err_message['phone'] = 'Пожалуйста, введите номер телефона.';
+	} else {
+		$art_phone = sanitize_text_field($_POST['phone']);
+	}
+
+	// Проверяем полей емайла, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['email']) || !isset($_POST['email'])) {
+		$err_message['consultation_email'] = 'Пожалуйста, введите адрес вашей электронной почты.';
+	} elseif (!preg_match('/^[[:alnum:]][a-z0-9_.-]*@[a-z0-9.-]+\.[a-z]{2,4}$/i', $_POST['email'])) {
+		$err_message['consultation_email'] = 'Адрес электронной почты некорректный.';
+	} else {
+		$art_email = sanitize_email($_POST['email']);
+	}
+
+	// Проверяем поле знания английского, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['english']) || !isset($_POST['english'])) {
+		$err_message['english'] = 'Пожалуйста, укажите уровень владения английским.';
+	} else {
+		$art_english = sanitize_text_field($_POST['english']);
+	}
+	// Проверяем поле предпочитаемой программы, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['programm']) || !isset($_POST['programm'])) {
+		$err_message['programm'] = 'Пожалуйста, укажите предпочтительную программу.';
+	} else {
+		$art_programm = sanitize_text_field($_POST['programm']);
+	}
+	// Проверяем поле предпочитаемой даты начала, если пустое, то пишем сообщение в массив ошибок
+	if (empty($_POST['art_start_date']) || !isset($_POST['art_start_date'])) {
+		$err_message['start_date'] = 'Пожалуйста, укажите предпочтительную дату начала.';
+	} else {
+		$art_start_date = sanitize_text_field($_POST['art_start_date']);
+	}
+
+	// Отправляем поле с дополнительными комментариями
+	if ($_POST['comments']) {
+		$art_comments = sanitize_text_field($_POST['comments']);
+	}
+
+	// Проверяем полей темы письма, если пустое, то пишем сообщение по умолчанию
+	if (empty($_POST['art_subject']) || !isset($_POST['art_subject'])) {
+		$art_subject = 'Callan Education Заявка на консультацию';
+	} else {
+		$art_subject = sanitize_text_field($_POST['art_subject']);
+	}
+
+	// Проверяем полей сообщения, если пустое, то пишем сообщение в массив ошибок
+	// if ( empty( $_POST['art_comments'] ) || ! isset( $_POST['art_comments'] ) ) {
+	// 	$err_message['comments'] = 'Пожалуйста, введите ваше сообщение.';
+	// } else {
+	// 	$art_comments = sanitize_textarea_field( $_POST['art_comments'] );
+	// }
+
+	// Проверяем массив ошибок, если не пустой, то передаем сообщение. Иначе отправляем письмо
+	if ($err_message) {
+
+		wp_send_json_error($err_message);
+	} else {
+
+		// Указываем адресата
+		$email_to = '';
+
+		// Если адресат не указан, то берем данные из настроек сайта
+		if (!$email_to) {
+			$email_to = get_option('admin_email');
+		}
+
+		$body    = "Имя: $art_first_name \nФамилия: $art_last_name \nДата рождения: $art_birth_date \nГород: $art_city \nНомер телефона: $art_phone \nАдрес электронной почты: $art_email \nУровень владения английским: $art_english \nПредпочтительная программа: $art_programm \nПредпочтительная дата начала: $art_start_date \nДополнительные комментарии: $art_comments";
+		// $body    = "Имя: $art_name \nEmail: $art_email \n\nСообщение: $art_comments";
+		$headers = 'From: ' . $art_first_name . ' <' . $email_to . '>' . "\r\n" . 'Reply-To: ' . $email_to;
+
+		// Отправляем письмо
+		wp_mail($email_to, $art_subject, $body, $headers);
+		// wp_mail( $email_to, $art_subject, $body, $headers );
+
+		// Отправляем сообщение об успешной отправке
+		$message_success = 'Собщение отправлено. В ближайшее время я свяжусь с вами.';
+		wp_send_json_success($message_success);
+	}
+
+	// На всякий случай убиваем еще раз процесс ajax
+	wp_die();
+}

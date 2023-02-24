@@ -58,14 +58,6 @@ if (isset($_GET['news_id'])) {
                 'color' => get_field('time_color'),
                 'tags' => removeSpacesAndConvertToArray(mb_strtolower(get_field('tags')))
             ];
-            // if ($_GET['news_id'] == get_the_ID()) {
-            //     // $current_news->title = get_the_title();
-            //     // $current_news->foto = get_field('news_foto');
-            //     // $current_news->content = get_field('news_content');
-            //     // $current_news->time = get_field('time_to_read');
-            //     // $current_news->color = get_field('time_color');
-            //     // $current_news->tags = removeSpacesAndConvertToArray(mb_strtolower(get_field('tags')));
-            // }
         }
     } else {
         // Постов не найдено
