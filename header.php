@@ -73,13 +73,13 @@
                           <li><a href="#" class="language-active text-uppercase">рус</a></li>
                           <li><a href="#" class="text-uppercase">uz</a></li>
                         </ul>
-                        <a href="<?php bloginfo('template_directory'); ?>/consultation">
+                        <a href="<?php bloginfo('url'); ?>/consultation">
                           <button type="button" class="reqest__btn">Оставить заявку</button>
                         </a>
                         <ul class="navbar-contacts">
                           <li class="navbar-contacts-item"><a href="#">
                               <img src="<?php bloginfo('template_directory'); ?>/assets/img/nav/navbar-contact-time.png" alt="часы">
-                              <?php the_field('work_schedule'); ?>
+                              <?php the_field('work_schedule', 8); ?>
                             </a></li>
                           <li class="navbar-contacts-item"><a href="<?php the_field('place_map', 8); ?>" target="_blank">
                               <img src="<?php bloginfo('template_directory'); ?>/assets/img/nav/navbar-contact-map.png" alt="место">

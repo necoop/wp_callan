@@ -41,6 +41,10 @@
       margin-left: 0;
     }
   }
+  .back__box{
+    position: static;
+    align-self: start;
+  }
 }
 .contact__data {
   width: 100%;
@@ -112,6 +116,7 @@
   flex-wrap: nowrap;
   gap: 10px;
 }
+
 select.input {
   padding-right: 20px;
   appearance: none;

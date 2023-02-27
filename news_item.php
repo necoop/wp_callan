@@ -20,6 +20,30 @@ function button_preload($urls, $relation_type)
             'as'          => 'image'
         ];
     }
+    if ('preload' === $relation_type) {
+        $urls[] = [
+            'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-right-hover.png",
+            'as'          => 'image'
+        ];
+    }
+    if ('preload' === $relation_type) {
+        $urls[] = [
+            'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-left-hover.png",
+            'as'          => 'image'
+        ];
+    }
+    if ('preload' === $relation_type) {
+        $urls[] = [
+            'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-right-active.png",
+            'as'          => 'image'
+        ];
+    }
+    if ('preload' === $relation_type) {
+        $urls[] = [
+            'href'        => get_bloginfo('template_directory') . "/assets/img/ui/arr-left-active.png",
+            'as'          => 'image'
+        ];
+    }
     return $urls;
 }
 // Окончание предзагрузки иконок кнопок

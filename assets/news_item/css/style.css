@@ -176,6 +176,26 @@ ul {
   left: 0;
 }
 
+.swiper-button-next:hover::after {
+  background-image: url(../../img/ui/arr-right-hover.png);
+  right: 0;
+}
+
+.swiper-button-prev:hover::after {
+  background-image: url(../../img/ui/arr-left-hover.png);
+  right: 0;
+}
+
+.swiper-button-next:active::after {
+  background-image: url(../../img/ui/arr-right-active.png);
+  right: 0;
+}
+
+.swiper-button-prev:active::after {
+  background-image: url(../../img/ui/arr-left-active.png);
+  right: 0;
+}
+
 .similar__news__textbox {
   position: relative;
 }

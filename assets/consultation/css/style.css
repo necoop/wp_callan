@@ -44,6 +44,10 @@
   .section__caption h2 {
     margin-left: 0;
   }
+  .back__box {
+    position: static;
+    align-self: start;
+  }
 }
 .contact__data {
   width: 100%;
